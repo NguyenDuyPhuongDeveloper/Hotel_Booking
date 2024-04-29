@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { StatusBar, Text, View } from 'react-native';
 import { SplashScreen } from './src/screens';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './src/navigators/AuthNavigator'
@@ -17,12 +17,17 @@ const App = () =>
 
     return () => clearTimeout( timeout );
   }, [] );
-  return isShowSplash ? (
-    <SplashScreen />
-  ) : (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+  return (
+    <>
+      <StatusBar barStyle='dark-content' backgroundColor='transparent' translucent />
+      {isShowSplash ? (
+        <SplashScreen />
+      ) : (
+        <NavigationContainer>
+          <AuthNavigator />
+        </NavigationContainer>
+      )}
+    </>
   )
 };
 
