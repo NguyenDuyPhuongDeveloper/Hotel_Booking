@@ -41,7 +41,8 @@ const App = () =>
         <SplashScreen />
       ) : (
         <NavigationContainer>
-          {accessToken ? <MainNavigator /> : <AuthNavigator />}
+          {/* {accessToken ? <MainNavigator /> : <AuthNavigator />} */}
+          <AuthNavigator />
         </NavigationContainer>
       )}
     </>

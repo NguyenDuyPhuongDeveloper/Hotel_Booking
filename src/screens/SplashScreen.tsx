@@ -3,18 +3,12 @@ import React from 'react'
 import { appInfos } from '../constants/appInfos'
 import { SpaceComponent } from '../components'
 import { appColors } from '../constants/appColors'
+import LinearGradientComponent from '../components/LinearGradientComponent'
 
 const SplashScreen = () =>
 {
     return (
-        <ImageBackground
-            source={require( '../assets/images/splash-img.png' )}
-            style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-            imageStyle={{ flex: 1 }} >
+        <LinearGradientComponent colors={[ '#00BD6B', '#2D6ADC' ]}  >
             <Image source={require( '../assets/images/Logo-icon.png' )} />
             <Image source={require( '../assets/images/logo-text-1.png' )}
                 style={{
@@ -29,7 +23,10 @@ const SplashScreen = () =>
                 }} />
             <SpaceComponent height={16} />
             <ActivityIndicator color={appColors.white} size={24} />
-        </ImageBackground>
+
+        </LinearGradientComponent>
+
+
 
     )
 }
