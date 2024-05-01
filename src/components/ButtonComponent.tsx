@@ -1,17 +1,16 @@
+import React, { ReactNode } from 'react';
 import
 {
-    View,
-    Text,
     StyleProp,
-    ViewStyle,
     TextStyle,
     TouchableOpacity,
+    View,
+    ViewStyle
 } from 'react-native';
-import React, { ReactNode } from 'react';
 import { TextComponent } from '.';
-import { globalStyles } from '../styles/globalStyles';
 import { appColors } from '../constants/appColors';
 import { fontFamilies } from '../constants/fontFamilies';
+import { globalStyles } from '../styles/globalStyles';
 
 interface Props
 {
@@ -86,7 +85,7 @@ const ButtonComponent = ( props: Props ) =>
             <TextComponent
                 flex={0}
                 text={text}
-                color={type === 'link' ? appColors.primary : appColors.text}
+                color={type === 'link' ? textColor : appColors.primary}
             />
         </TouchableOpacity>
     );

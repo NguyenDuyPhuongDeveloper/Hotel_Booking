@@ -1,58 +1,91 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { globalStyles } from '../styles/globalStyles'
 import { useNavigation } from '@react-navigation/native';
-import RowComponent from './RowComponent';
+import { ArrowLeft } from 'iconsax-react-native';
+import React, { ReactNode } from 'react';
+import
+{
+  ImageBackground,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { RowComponent, TextComponent } from '.';
 import { appColors } from '../constants/appColors';
-import { ArrowLeft2 } from 'iconsax-react-native';
-import TextComponent from './TextComponent';
 import { fontFamilies } from '../constants/fontFamilies';
+import { globalStyles } from '../styles/globalStyles';
 
 interface Props
 {
-  title?: string;
-  back?: boolean;
-  right?: React.ReactNode;
-  children: React.ReactNode;
+  isImageBackground?: boolean;
   isScroll?: boolean;
+  title?: string;
+  children: ReactNode;
+  back?: boolean;
 }
 
-const Container = ( props: Props ) =>
+const ContainerComponent = ( props: Props ) =>
 {
-  const { title, back, right, children, isScroll } = props;
+  const { children, isScroll, isImageBackground, title, back } = props;
+
   const navigation: any = useNavigation();
 
-  return (
-    <View style={[ globalStyles.container ]}>
-      <RowComponent styles={{
-        paddingHorizontal: 16,
-        paddingBottom: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        {back && (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ArrowLeft2 size={24} color={appColors.text} />
-          </TouchableOpacity>
+  const headerComponent = () =>
+  {
+    return (
+      <View style={{ flex: 1, paddingTop: 30 }}>
+        {( title || back ) && (
+          <RowComponent
+            styles={{
+              paddingHorizontal: 16,
+              paddingVertical: 10,
+              minWidth: 48,
+              minHeight: 48,
+              justifyContent: 'flex-start',
+            }}>
+            {back && (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{ marginRight: 12 }}>
+                <ArrowLeft size={24} color={appColors.text} />
+              </TouchableOpacity>
+            )}
+            {title ? (
+              <TextComponent
+                text={title}
+                size={16}
+                font={fontFamilies.medium}
+                flex={1}
+              />
+            ) : (
+              <></>
+            )}
+          </RowComponent>
         )}
-        <View style={{ flex: 1, zIndex: -1 }}>
-          {title && (
-            <TextComponent
-              flex={0}
-              font={fontFamilies.bold}
-              size={16}
-              text={title}
-              styles={{ textAlign: 'center', marginLeft: back ? -24 : 0 }} />
-          )}
-        </View>
-      </RowComponent>
-      {isScroll ? (
-        <ScrollView style={{ flex: 1 }}>{children}</ScrollView>
-      ) : (
-        <View style={{ flex: 1 }}>{children}</View> )}
+        {returnContainer}
+      </View>
+    );
+  };
 
-    </View>
-  )
-}
+  const returnContainer = isScroll ? (
+    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      {children}
+    </ScrollView>
+  ) : (
+    <View style={{ flex: 1 }}>{children}</View>
+  );
 
-export default Container
+  return isImageBackground ? (
+    <ImageBackground
+      source={require( '../assets/images/splash-img.png' )}
+      style={{ flex: 1 }}
+      imageStyle={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>{headerComponent()}</SafeAreaView>
+    </ImageBackground>
+  ) : (
+    <SafeAreaView style={[ globalStyles.container ]}>
+      <View>{headerComponent()}</View>
+    </SafeAreaView>
+  );
+};
+
+export default ContainerComponent;

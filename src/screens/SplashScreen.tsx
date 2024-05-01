@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground, Image, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { appInfos } from '../constants/appInfos'
-import { SpaceComponent } from '../components'
+import { SpaceComponent, TextComponent } from '../components'
 import { appColors } from '../constants/appColors'
 import LinearGradientComponent from '../components/LinearGradientComponent'
 
@@ -23,6 +23,57 @@ const SplashScreen = () =>
                 }} />
             <SpaceComponent height={16} />
             <ActivityIndicator color={appColors.white} size={24} />
+            {/* <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} />
+            <TextComponent text='Forgot password?' color={appColors.warn} /> */}
 
         </LinearGradientComponent>
 

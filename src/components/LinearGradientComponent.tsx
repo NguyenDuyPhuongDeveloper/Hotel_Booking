@@ -1,6 +1,7 @@
-import React, { Children, ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { ReactNode } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { globalStyles } from '../styles/globalStyles';
 
 interface Props
 {
@@ -12,18 +13,11 @@ const LinearGradientComponent = ( props: Props ) =>
 {
     const { colors, children } = props;
     return (
-        <LinearGradient colors={colors} style={styles.container1}>
-            {children}
+        <LinearGradient colors={colors} style={globalStyles.container}>
+            <View style={globalStyles.container}>
+                {children}
+            </View>
         </LinearGradient>
     );
 };
-
-const styles = StyleSheet.create( {
-    container1: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-} );
-
 export default LinearGradientComponent;

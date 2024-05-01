@@ -1,9 +1,8 @@
-import { View, Text, StyleProp } from 'react-native'
-import React from 'react'
-import { globalStyles } from '../styles/globalStyles'
-import { fontFamilies } from '../constants/fontFamilies';
+import React from 'react';
+import { StyleProp, Text, TextStyle } from 'react-native';
 import { appColors } from '../constants/appColors';
-import { TextStyle } from 'react-native';
+import { fontFamilies } from '../constants/fontFamilies';
+import { globalStyles } from '../styles/globalStyles';
 
 interface Props
 {
@@ -22,7 +21,7 @@ const TextComponent = ( props: Props ) =>
     <Text style={[
       globalStyles.text,
       {
-        fontFamily: font ?? title ? fontFamilies.bold : fontFamilies.regular,
+        fontFamily: font ?? title ? fontFamilies.semiBold : fontFamilies.regular,
         fontSize: size ?? title ? 24 : 14,
         color: color ?? appColors.text,
         flex: flex ?? 0,

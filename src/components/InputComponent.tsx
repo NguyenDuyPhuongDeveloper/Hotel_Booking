@@ -1,18 +1,16 @@
-import { View, Text, TextInput, Touchable, TouchableOpacity } from 'react-native'
-import React, { ReactNode, useState } from 'react'
-import TitleComponent from './TitleComponent';
-import RowComponent from './RowComponent';
-import { globalStyles } from '../styles/globalStyles';
-import { appColors } from '../constants/appColors';
+import React, { ReactNode, useState } from 'react';
+import { TextInput, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-
+import { appColors } from '../constants/appColors';
+import { globalStyles } from '../styles/globalStyles';
+import RowComponent from './RowComponent';
+import TitleComponent from './TitleComponent';
 
 
 interface Props
 {
     value?: string;
-    // onChange: ( val: string ) => void;
+    onChange: ( val: string ) => void;
     placeholder?: string;
     title?: string;
     prefix?: ReactNode;
@@ -24,8 +22,7 @@ interface Props
 }
 const InputComponent = ( props: Props ) =>
 {
-    // const { value, onChange, placeholder, title, prefix, affix, allowClear, multiple, numberOfLines, isPassword } = props;
-    const { value, placeholder, title, prefix, affix, allowClear, multiple, numberOfLines, isPassword } = props;
+    const { value, onChange, placeholder, title, prefix, affix, allowClear, multiple, numberOfLines, isPassword } = props;
     const [ showPass, setShowPass ] = useState( false );
     return (
         <View style={{ marginBottom: 16 }}>
@@ -53,7 +50,7 @@ const InputComponent = ( props: Props ) =>
                                 flex: 0,
                             } ]}
                         value={value}
-                        // onChangeText={val => onChange( val )}
+                        onChangeText={val => onChange( val )}
                         placeholder={placeholder ?? ''}
                         placeholderTextColor={'#676767'}
                         multiline={multiple}
@@ -64,14 +61,13 @@ const InputComponent = ( props: Props ) =>
                 </View>
                 {affix && affix}
                 {allowClear && value && (
-                    <TouchableOpacity >
-                        {/* <TouchableOpacity onPress={() => onChange( '' )}> */}
-                        <AntDesign name="close" size={20} color={appColors.white} />
+                    <TouchableOpacity onPress={() => onChange( '' )}>
+                        <AntDesign name="close" size={20} color={appColors.primary} />
                     </TouchableOpacity>
                 )}
                 {isPassword && (
                     <TouchableOpacity onPress={() => setShowPass( !showPass )}>
-                        <AntDesign name={showPass ? 'eye' : 'eyeo'} size={20} color={appColors.white} />
+                        <AntDesign name={showPass ? 'eye' : 'eyeo'} size={20} color={appColors.primary} />
                     </TouchableOpacity>
                 )}
             </RowComponent>
