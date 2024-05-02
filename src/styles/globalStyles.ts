@@ -8,6 +8,11 @@ export const globalStyles = StyleSheet.create( {
         justifyContent: 'center',
         alignItems: 'center',
     },
+    scrollViewContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     section: {
         marginBottom: 5,
         paddingHorizontal: 10,
