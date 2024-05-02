@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Switch } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
@@ -7,7 +6,7 @@ import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 
 
-const SignupScreen = () =>
+const SignupScreen = ( { navigation }: any ) =>
 {
     const [ name, setName ] = useState( '' );
     const [ email, setEmail ] = useState( '' );
@@ -78,7 +77,7 @@ const SignupScreen = () =>
                     <SpaceComponent height={20} />
                     <RowComponent>
                         <TextComponent text="Already have an account? " />
-                        <ButtonComponent type='link' text="Sign in" textColor={appColors.primary} />
+                        <ButtonComponent type='link' text="Sign in" onPress={() => navigation.navigate( 'SigninScreen' )} textColor={appColors.primary} />
                     </RowComponent>
                 </SectionComponent>
             </BlankComponent>

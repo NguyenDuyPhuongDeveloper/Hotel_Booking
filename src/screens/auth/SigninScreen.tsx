@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Switch } from 'react-native'
+import { Image, Switch } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 
 
-const SigninScreen = () =>
+const SigninScreen = ( { navigation }: any ) =>
 {
     const [ email, setEmail ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
@@ -24,6 +24,18 @@ const SigninScreen = () =>
                     alignContent: 'center',
                     flexDirection: 'column'
                 }}>
+                <SectionComponent
+                    styles={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginTop: 30
+                    }}>
+                    <Image source={require( '../../assets/images/Logo-icon.png' )}
+                        style={{
+                            width: 150,
+                            height: 150,
+                        }} />
+                </SectionComponent>
                 <SectionComponent styles={{ paddingTop: 20 }}>
                     <InputComponent
                         value={email}
@@ -69,7 +81,7 @@ const SigninScreen = () =>
                     <SpaceComponent height={20} />
                     <RowComponent>
                         <TextComponent text="Don't have an account? " />
-                        <ButtonComponent type='link' text="Sign up" textColor={appColors.primary} />
+                        <ButtonComponent type='link' text="Sign up" onPress={() => navigation.navigate( 'SignupScreen' )} textColor={appColors.primary} />
                     </RowComponent>
                 </SectionComponent>
             </BlankComponent>
