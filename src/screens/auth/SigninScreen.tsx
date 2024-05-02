@@ -4,6 +4,8 @@ import Feather from 'react-native-vector-icons/Feather'
 import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
+import { appInfos } from '../../constants/appInfos'
+import LinearGradient from 'react-native-linear-gradient'
 
 
 const SigninScreen = ( { navigation }: any ) =>
@@ -15,7 +17,7 @@ const SigninScreen = ( { navigation }: any ) =>
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
             <BlankComponent
-                title='Sign In' height={450} width='80%'
+                title='Sign In' height={650} width='80%'
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,
@@ -28,13 +30,20 @@ const SigninScreen = ( { navigation }: any ) =>
                     styles={{
                         justifyContent: 'center',
                         alignItems: 'center',
-                        marginTop: 30
+                        marginTop: 10
                     }}>
-                    <Image source={require( '../../assets/images/Logo-icon.png' )}
-                        style={{
-                            width: 150,
-                            height: 150,
-                        }} />
+                    <LinearGradient colors={[ '#00BD6B', '#2D6ADC' ]} style={{ flexGrow: 1, alignContent: 'center', alignItems: 'center', borderRadius: 20, paddingHorizontal: 20 }}>
+                        <Image source={require( '../../assets/images/Logo-icon.png' )}
+                            style={{
+                                width: 150,
+                                height: 150,
+                            }} />
+                        <Image source={require( '../../assets/images/logo-text-1.png' )}
+                            style={{
+                                width: appInfos.sizes.WIDTH * 0.6,
+                                resizeMode: 'contain'
+                            }} />
+                    </LinearGradient>
                 </SectionComponent>
                 <SectionComponent styles={{ paddingTop: 20 }}>
                     <InputComponent

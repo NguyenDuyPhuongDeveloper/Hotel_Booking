@@ -24,9 +24,6 @@ const SplashScreen = () =>
             <SpaceComponent height={16} />
             <ActivityIndicator color={appColors.white} size={24} />
         </LinearGradientComponent>
-
-
-
     )
 }
 

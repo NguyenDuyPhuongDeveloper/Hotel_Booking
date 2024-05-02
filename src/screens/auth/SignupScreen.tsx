@@ -5,52 +5,61 @@ import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionC
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 
-
+const initValue = {
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
+}
 const SignupScreen = ( { navigation }: any ) =>
 {
-    const [ name, setName ] = useState( '' );
-    const [ email, setEmail ] = useState( '' );
-    const [ phone, setPhone ] = useState( '' );
-    const [ password, setPassword ] = useState( '' );
+    const [ values, setValues ] = useState( initValue )
     const [ isRemember, setIsRemember ] = useState( true );
+
+    const handleChangeValue = ( key: string, value: string ) =>
+    {
+        const data: any = { ...values };
+        data[ `${ key }` ] = value;
+        setValues( data );
+
+    }
 
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
-            <BlankComponent
+            <BlankComponent back
                 title='Sign up' height={550} width='80%'
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,
                     paddingVertical: 10,
-                    justifyContent: 'flex-start',
+                    justifyContent: 'center',
                     alignContent: 'center',
-                    flexDirection: 'column'
                 }}>
                 <SectionComponent styles={{ paddingTop: 20 }}>
                     <InputComponent
-                        value={name}
+                        value={values.username}
                         prefix={<Ionicons name='person' size={24} color={appColors.primary} />}
                         placeholder='Full name'
-                        onChange={val => setName( val )}
+                        onChange={val => handleChangeValue( 'username', val )}
                         allowClear />
                     <InputComponent
-                        value={email}
+                        value={values.email}
                         prefix={<Feather name='mail' size={24} color={appColors.primary} />}
                         placeholder='Email'
-                        onChange={val => setEmail( val )}
+                        onChange={val => handleChangeValue( 'email', val )}
                         allowClear />
 
                     <InputComponent
-                        value={phone}
+                        value={values.phone}
                         prefix={<Feather name='smartphone' size={24} color={appColors.primary} />}
                         placeholder='Phone number'
-                        onChange={val => setPhone( val )}
+                        onChange={val => handleChangeValue( 'phone', val )}
                         allowClear />
                     <InputComponent
-                        value={password}
+                        value={values.password}
                         prefix={<Feather name='lock' size={24} color={appColors.primary} />}
                         placeholder='Password'
-                        onChange={val => setPassword( val )}
+                        onChange={val => handleChangeValue( 'password', val )}
                         allowClear
                         isPassword />
                 </SectionComponent>

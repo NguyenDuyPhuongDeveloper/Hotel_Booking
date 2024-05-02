@@ -67,25 +67,18 @@ const ContainerComponent = ( props: Props ) =>
   };
 
   const returnContainer = isScroll ? (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '100%', backgroundColor: 'coral' }} contentContainerStyle={globalStyles.scrollViewContent}>
       {children}
     </ScrollView>
   ) : (
     <View style={{ flex: 1 }}>{children}</View>
   );
 
-  return isImageBackground ? (
-    <ImageBackground
-      source={require( '../assets/images/splash-img.png' )}
-      style={{ flex: 1 }}
-      imageStyle={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>{headerComponent()}</SafeAreaView>
-    </ImageBackground>
-  ) : (
+  return (
     <SafeAreaView style={[ globalStyles.container ]}>
       <View>{headerComponent()}</View>
     </SafeAreaView>
-  );
+  )
 };
 
 export default ContainerComponent;
