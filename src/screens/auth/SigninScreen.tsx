@@ -13,7 +13,7 @@ const SigninScreen = ( { navigation }: any ) =>
     const [ email, setEmail ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
     const [ isRemember, setIsRemember ] = useState( true );
-    const [ isPasswordVisible, setIsPasswordVisible ] = useState( false );
+
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
             <BlankComponent

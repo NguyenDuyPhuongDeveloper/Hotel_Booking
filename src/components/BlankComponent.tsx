@@ -35,16 +35,18 @@ const BlankComponent = ( props: Props ) =>
 
         ]
     return (
-        <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 30 }}>
             {( title || back ) && ( <RowComponent
                 styles={{
-                    paddingHorizontal: 16,
+                    paddingHorizontal: 18,
                     paddingVertical: 10,
                     minWidth: 48,
                     minHeight: 48,
                     justifyContent: 'flex-start',
-                    width: '100%'
-
+                    width: '100%',
+                    borderWidth: 0.5,
+                    borderColor: appColors.white,
+                    borderRadius: 16,
                 }}>
                 {back && (
                     <TouchableOpacity
@@ -59,10 +61,11 @@ const BlankComponent = ( props: Props ) =>
                     <></>
                 )}
             </RowComponent> )}
-
-            <SpaceComponent height={15} />
-            <View style={localStyle}>
-                {children}
+            <SpaceComponent height={10} />
+            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={localStyle}>
+                    {children}
+                </View>
             </View>
         </View>
     )

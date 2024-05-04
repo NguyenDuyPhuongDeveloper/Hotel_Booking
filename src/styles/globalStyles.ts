@@ -49,7 +49,7 @@ export const globalStyles = StyleSheet.create( {
     },
     blank: {
         backgroundColor: appColors.white,
-        borderRadius: 16
+        borderRadius: 16,
     },
     linearGradient: {
         flex: 1,
