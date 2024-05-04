@@ -29,13 +29,13 @@ const BlankComponent = ( props: Props ) =>
             globalStyles.blank,
             styles,
             {
-                width: width ?? '50%',
-                height: height ?? '50%',
+                width: width ?? '100%',
+                height: height ?? '100%',
             },
 
         ]
     return (
-        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 30 }}>
+        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 30, paddingBottom: 10 }}>
             {( title || back ) && ( <RowComponent
                 styles={{
                     paddingHorizontal: 18,

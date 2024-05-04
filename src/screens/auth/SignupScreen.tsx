@@ -27,7 +27,7 @@ const SignupScreen = ( { navigation }: any ) =>
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
             <BlankComponent back
-                title='Sign up' height={550} width='80%'
+                title='Sign up' height={550} width='90%'
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,

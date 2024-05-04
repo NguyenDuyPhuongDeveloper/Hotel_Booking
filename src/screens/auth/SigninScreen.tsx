@@ -17,7 +17,7 @@ const SigninScreen = ( { navigation }: any ) =>
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
             <BlankComponent
-                title='Sign In' height={650} width='80%'
+                title='Sign In' height={650} width='90%'
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,
@@ -29,8 +29,8 @@ const SigninScreen = ( { navigation }: any ) =>
                 <SectionComponent
                     styles={{
                         justifyContent: 'center',
-                        alignItems: 'center',
-                        marginTop: 10
+                        alignItems: 'stretch',
+                        marginTop: 10,
                     }}>
                     <LinearGradient colors={[ '#00BD6B', '#2D6ADC' ]} style={{ flexGrow: 1, alignContent: 'center', alignItems: 'center', borderRadius: 20, paddingHorizontal: 20 }}>
                         <Image source={require( '../../assets/images/Logo-icon.png' )}
@@ -64,7 +64,7 @@ const SigninScreen = ( { navigation }: any ) =>
                             <Switch value={isRemember} onChange={() => setIsRemember( !isRemember )} style={{ marginStart: -10 }} />
                             <TextComponent text='Remember me?' />
                         </RowComponent>
-                        <ButtonComponent type='link' text='Forgot password?' textColor={appColors.warn} />
+                        <ButtonComponent type='link' text='Forgot password?' textColor={appColors.warn} onPress={() => navigation.navigate( 'ForgotPassword' )} />
                     </RowComponent>
                 </SectionComponent>
                 <SectionComponent>
