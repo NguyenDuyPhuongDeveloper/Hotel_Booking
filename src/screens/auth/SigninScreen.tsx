@@ -68,7 +68,7 @@ const SigninScreen = ( { navigation }: any ) =>
                     </RowComponent>
                 </SectionComponent>
                 <SectionComponent>
-                    <ButtonComponent type='primary' color={appColors.light_green} text="SIGN IN" styles={{ width: '100%' }} />
+                    <ButtonComponent type='primary' color={appColors.light_green} text="SIGN IN" styles={{ width: '100%' }} onPress={() => navigation.navigate( 'VerificationScreen' )} />
                 </SectionComponent>
                 <SectionComponent>
                     <RowComponent>

@@ -31,7 +31,7 @@ const ForgotPassword = () =>
                         allowClear
                     />
                 </SectionComponent>
-                <SpaceComponent height={20} />
+                <SpaceComponent height={10} />
                 <SectionComponent styles={{
                     justifyContent: 'center',
                     alignItems: 'stretch',
