@@ -6,6 +6,7 @@ import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 import { appInfos } from '../../constants/appInfos'
 import LinearGradient from 'react-native-linear-gradient'
+import authenticationAPI from '../../apis/authApi'
 
 
 const SigninScreen = ( { navigation }: any ) =>
@@ -13,6 +14,18 @@ const SigninScreen = ( { navigation }: any ) =>
     const [ email, setEmail ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
     const [ isRemember, setIsRemember ] = useState( true );
+
+    const handleLogin = async () =>
+    {
+        try
+        {
+            const res = await authenticationAPI.HandleAuthentication( '/hello' );
+            console.log( res );
+        } catch ( err )
+        {
+            console.log( err );
+        }
+    }
 
     return (
         <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
@@ -68,7 +81,7 @@ const SigninScreen = ( { navigation }: any ) =>
                     </RowComponent>
                 </SectionComponent>
                 <SectionComponent>
-                    <ButtonComponent type='primary' color={appColors.light_green} text="SIGN IN" styles={{ width: '100%' }} onPress={() => navigation.navigate( 'VerificationScreen' )} />
+                    <ButtonComponent type='primary' color={appColors.light_green} text="SIGN IN" styles={{ width: '100%' }} onPress={handleLogin} />
                 </SectionComponent>
                 <SectionComponent>
                     <RowComponent>
