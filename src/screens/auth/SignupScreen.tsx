@@ -7,6 +7,9 @@ import { appColors } from '../../constants/appColors'
 import { LoadingModal } from '../../modals'
 import authenticationAPI from '../../apis/authApi'
 import { Validate } from '../../utils/validate'
+import { useDispatch } from 'react-redux'
+import { addAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initValue = {
     username: '',
@@ -19,6 +22,7 @@ const SignupScreen = ( { navigation }: any ) =>
     const [ values, setValues ] = useState( initValue )
     const [ isLoading, setIsLoading ] = useState( false );
     const [ error, setError ] = useState( '' );
+    const dispatch = useDispatch();
 
 
     useEffect( () =>
@@ -50,6 +54,8 @@ const SignupScreen = ( { navigation }: any ) =>
                 {
                     const res = await authenticationAPI.HandleAuthentication( '/register', values, 'post' );
                     console.log( res );
+                    dispatch( addAuth( res.data ) );
+                    await AsyncStorage.setItem( 'auth', JSON.stringify( res.data ) );
                     setIsLoading( false );
                 } catch ( err )
                 {
