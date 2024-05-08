@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Switch } from 'react-native'
+import { Alert, Image, Switch } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
@@ -7,6 +7,10 @@ import { appColors } from '../../constants/appColors'
 import { appInfos } from '../../constants/appInfos'
 import LinearGradient from 'react-native-linear-gradient'
 import authenticationAPI from '../../apis/authApi'
+import { Validate } from '../../utils/validate'
+import { useDispatch } from 'react-redux'
+import { addAuth } from '../../redux/reducers/authReducer'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const SigninScreen = ( { navigation }: any ) =>
@@ -15,16 +19,27 @@ const SigninScreen = ( { navigation }: any ) =>
     const [ password, setPassword ] = useState( '' );
     const [ isRemember, setIsRemember ] = useState( true );
 
+    const dispatch = useDispatch();
+
     const handleLogin = async () =>
     {
-        try
+        const emailValidation = Validate.email( email );
+        if ( emailValidation )
         {
-            const res = await authenticationAPI.HandleAuthentication( '/hello' );
-            console.log( res );
-        } catch ( err )
+            try
+            {
+                const res = await authenticationAPI.HandleAuthentication( '/login', { email, password }, 'post' );
+                dispatch( addAuth( res.data ) );
+                await AsyncStorage.setItem( 'auth', isRemember ? JSON.stringify( res.data ) : email );
+            } catch ( err )
+            {
+                console.log( err );
+            }
+        } else
         {
-            console.log( err );
+            Alert.alert( 'Error', 'Invalid email address' );
         }
+
     }
 
     return (

@@ -1,6 +1,5 @@
-import { View, Text, Button } from 'react-native'
 import React from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Button, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { removeAuth } from '../../redux/reducers/authReducer'
 

@@ -42,7 +42,7 @@ const SignupScreen = ( { navigation }: any ) =>
     {
         const { username, email, phone, password } = values;
         const emailValidation = Validate.email( values.email );
-        const passwordValidation = Validate.password( values.password );
+        const passwordValidation = Validate.password( values.password );//not used yet
 
         if ( username && email && phone && password )
         {
