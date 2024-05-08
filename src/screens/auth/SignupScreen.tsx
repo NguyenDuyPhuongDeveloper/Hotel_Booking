@@ -11,6 +11,13 @@ import { useDispatch } from 'react-redux'
 import { addAuth } from '../../redux/reducers/authReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+
+interface ErrorMessages
+{
+    email: string,
+    password: string,
+}
+
 const initValue = {
     username: '',
     email: '',
@@ -21,14 +28,28 @@ const SignupScreen = ( { navigation }: any ) =>
 {
     const [ values, setValues ] = useState( initValue )
     const [ isLoading, setIsLoading ] = useState( false );
-    const [ error, setError ] = useState( '' );
+    const [ errorMessage, setErrorMessage ] = useState<any>();
+    const [ isDisabled, setIsDisabled ] = useState( true );
+
+    useEffect( () =>
+    {
+        if ( !errorMessage ||
+            ( errorMessage
+                && ( errorMessage.email || errorMessage.password ) ) )
+        {
+            setIsDisabled( true );
+        } else
+        {
+            setIsDisabled( false );
+        }
+    }, [ errorMessage ] );
     const dispatch = useDispatch();
 
 
     useEffect( () =>
     {
         if ( values.email || values.username || values.phone || values.password )
-            setError( '' );
+            setErrorMessage( '' );
     }, [ values.username, values.email, values.password, values.phone ] )
 
     const handleChangeValue = ( key: string, value: string ) =>
@@ -38,41 +59,72 @@ const SignupScreen = ( { navigation }: any ) =>
         setValues( data );
 
     }
+    const formValidator = ( key: string ) =>
+    {
+        const data = { ...errorMessage };
+        let message = '';
+        switch ( key )
+        {
+            case 'email':
+                if ( !values.email ) { message = 'Email is required!' }
+                else if ( !Validate.email( values.email ) ) { message = 'Email is invalid!' }
+                else { message = '' };
+                break;
+            case 'password':
+                if ( !values.password ) { message = 'Password is required!' }
+                else { message = '' };
+                break;
+            default:
+                break;
+        }
+        data[ `${ key }` ] = message;
+        setErrorMessage( data );
+
+    }
     const handleRegister = async () =>
     {
-        const { username, email, phone, password } = values;
-        const emailValidation = Validate.email( values.email );
-        const passwordValidation = Validate.password( values.password );//not used yet
-
-        if ( username && email && phone && password )
+        const api = '/verification';
+        try
         {
-            if ( emailValidation )
-            {
-                setError( '' );
-                setIsLoading( true );
-                try
-                {
-                    const res = await authenticationAPI.HandleAuthentication( '/register', values, 'post' );
-                    console.log( res );
-                    dispatch( addAuth( res.data ) );
-                    await AsyncStorage.setItem( 'auth', JSON.stringify( res.data ) );
-                    setIsLoading( false );
-                } catch ( err )
-                {
-                    console.log( err );
-                    setIsLoading( false );
-                }
-            }
-            else
-            {
-                setError( 'Email is invalid' );
-            }
-
-        }
-        else
+            const res = await authenticationAPI.HandleAuthentication( api, { email: values.email }, 'post' );
+            console.log( res );
+        } catch ( error )
         {
-            setError( 'Please fill all fields' );
+            console.log( error );
         }
+        // const { username, email, phone, password } = values;
+        // const emailValidation = Validate.email( values.email );
+        // const passwordValidation = Validate.password( values.password );//not used yet
+
+        // if ( username && email && phone && password )
+        // {
+        //     if ( emailValidation )
+        //     {
+        //         setErrorMessage( '' );
+        //         setIsLoading( true );
+        //         try
+        //         {
+        //             const res = await authenticationAPI.HandleAuthentication( '/register', values, 'post' );
+        //             console.log( res );
+        //             dispatch( addAuth( res.data ) );
+        //             await AsyncStorage.setItem( 'auth', JSON.stringify( res.data ) );
+        //             setIsLoading( false );
+        //         } catch ( err )
+        //         {
+        //             console.log( err );
+        //             setIsLoading( false );
+        //         }
+        //     }
+        //     else
+        //     {
+        //         setErrorMessage( 'Email is invalid' );
+        //     }
+
+        // }
+        // else
+        // {
+        //     setErrorMessage( 'Please fill all fields' );
+        // }
 
     }
 
@@ -80,7 +132,7 @@ const SignupScreen = ( { navigation }: any ) =>
         <>
             <LinearGradientComponent isBackground colors={[ '#00BD6B', '#2D6ADC' ]} >
                 <BlankComponent back
-                    title='Sign up' height={550} width='90%'
+                    title='Sign up' height={600} width='90%'
                     styles={{
                         padding: 24,
                         paddingHorizontal: 14,
@@ -100,7 +152,8 @@ const SignupScreen = ( { navigation }: any ) =>
                             prefix={<Feather name='mail' size={24} color={appColors.primary} />}
                             placeholder='Email'
                             onChange={val => handleChangeValue( 'email', val )}
-                            allowClear />
+                            allowClear
+                            onEnd={() => formValidator( 'email' )} />
 
                         <InputComponent
                             value={values.phone}
@@ -114,17 +167,23 @@ const SignupScreen = ( { navigation }: any ) =>
                             placeholder='Password'
                             onChange={val => handleChangeValue( 'password', val )}
                             allowClear
-                            isPassword />
+                            isPassword
+                            onEnd={() => formValidator( 'password' )} />
                     </SectionComponent>
 
-                    {error && (
+                    {errorMessage && ( errorMessage.email || errorMessage.password ) && (
                         <SectionComponent>
-                            <TextComponent text={error} color={appColors.warn} />
+                            {
+                                Object.keys( errorMessage ).map( ( error, index ) =>
+                                    errorMessage[ `${ error }` ] && (
+                                        <TextComponent text={errorMessage[ `${ error }` ]} key={`error${ index }`} color={appColors.warn} />
+                                    ) )
+                            }
                         </SectionComponent>
                     )}
 
                     <SectionComponent>
-                        <ButtonComponent onPress={handleRegister} type='primary' color={appColors.light_green} text="Sign up" styles={{ width: '100%' }} />
+                        <ButtonComponent disable={isDisabled} onPress={handleRegister} type='primary' text="Sign up" styles={{ width: '100%' }} />
                     </SectionComponent>
                     <SectionComponent>
                         <RowComponent>

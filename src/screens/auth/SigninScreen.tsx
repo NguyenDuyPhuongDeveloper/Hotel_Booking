@@ -96,7 +96,7 @@ const SigninScreen = ( { navigation }: any ) =>
                     </RowComponent>
                 </SectionComponent>
                 <SectionComponent>
-                    <ButtonComponent type='primary' color={appColors.light_green} text="SIGN IN" styles={{ width: '100%' }} onPress={handleLogin} />
+                    <ButtonComponent type='primary' text="SIGN IN" styles={{ width: '100%' }} onPress={handleLogin} />
                 </SectionComponent>
                 <SectionComponent>
                     <RowComponent>

@@ -19,10 +19,11 @@ interface Props
     multiple?: boolean;
     numberOfLines?: number;
     isPassword?: boolean;
+    onEnd?: () => void;
 }
 const InputComponent = ( props: Props ) =>
 {
-    const { value, onChange, placeholder, title, prefix, affix, allowClear, multiple, numberOfLines, isPassword } = props;
+    const { value, onChange, placeholder, title, prefix, affix, allowClear, multiple, numberOfLines, isPassword, onEnd } = props;
     const [ showPass, setShowPass ] = useState( false );
     return (
         <View style={{ marginBottom: 16 }}>
@@ -57,6 +58,7 @@ const InputComponent = ( props: Props ) =>
                         numberOfLines={numberOfLines}
                         secureTextEntry={isPassword ? !showPass : false}
                         autoCapitalize='none'
+                        onEndEditing={onEnd}
                     />
                 </View>
                 {affix && affix}

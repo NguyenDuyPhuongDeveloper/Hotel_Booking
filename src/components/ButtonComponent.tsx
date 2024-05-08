@@ -56,7 +56,7 @@ const ButtonComponent = ( props: Props ) =>
                             ? color
                             : disable
                                 ? appColors.gray
-                                : appColors.primary,
+                                : appColors.light_green,
                         marginBottom: 0,
                         width: '80%',
                     },
