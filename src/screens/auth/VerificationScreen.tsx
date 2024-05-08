@@ -2,11 +2,13 @@ import { ArrowRight, Sms } from 'iconsax-react-native'
 import React, { useState } from 'react'
 import { BlankComponent, ButtonComponent, InputComponent, LinearGradientComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
 import { appColors } from '../../constants/appColors'
+import { Text } from 'react-native';
 
 
 const initvalue = [ '0', '0', '0', '0' ];
-const VerificationScreen = () =>
+const VerificationScreen = ( { navigation, route }: any ) =>
 {
+    const { code, email, password } = route.params;
     const [ verificationCode, setVerificationCode ] = useState( initvalue );
     const handleInputChange = ( index: number, value: string ) =>
     {
@@ -33,10 +35,7 @@ const VerificationScreen = () =>
                     <TextComponent text="We've sen you the verification code on +84 123456789" />
                     <SpaceComponent height={20} />
                     <RowComponent justify='space-around'>
-                        <InputComponent placeholder='0' onChange={val => console.log( val )} />
-                        <InputComponent placeholder='0' onChange={val => console.log( val )} />
-                        <InputComponent placeholder='0' onChange={val => console.log( val )} />
-                        <InputComponent placeholder='0' onChange={val => console.log( val )} />
+                        <Text>{`${ code },${ email },${ password }`}</Text>
                     </RowComponent>
                 </SectionComponent>
                 <SpaceComponent height={10} />

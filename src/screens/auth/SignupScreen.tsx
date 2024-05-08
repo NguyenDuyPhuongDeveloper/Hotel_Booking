@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { useDispatch } from 'react-redux'
+import authenticationAPI from '../../apis/authApi'
 import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 import { LoadingModal } from '../../modals'
-import authenticationAPI from '../../apis/authApi'
 import { Validate } from '../../utils/validate'
-import { useDispatch } from 'react-redux'
-import { addAuth } from '../../redux/reducers/authReducer'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 interface ErrorMessages
@@ -35,14 +33,14 @@ const SignupScreen = ( { navigation }: any ) =>
     {
         if ( !errorMessage ||
             ( errorMessage
-                && ( errorMessage.email || errorMessage.password ) ) )
+                && ( errorMessage.email || errorMessage.password ) ) && ( !values.email || !values.password ) )
         {
             setIsDisabled( true );
         } else
         {
             setIsDisabled( false );
         }
-    }, [ errorMessage ] );
+    }, [ errorMessage, values ] );
     const dispatch = useDispatch();
 
 
@@ -88,6 +86,9 @@ const SignupScreen = ( { navigation }: any ) =>
         {
             const res = await authenticationAPI.HandleAuthentication( api, { email: values.email }, 'post' );
             console.log( res );
+            setIsLoading( true );
+            console.log( res.data.code );
+            navigation.navigate( 'VerificationScreen', { verificationCode: res.data.code, ...values } )
         } catch ( error )
         {
             console.log( error );
