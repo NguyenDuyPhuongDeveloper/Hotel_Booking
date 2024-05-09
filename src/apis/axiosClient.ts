@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Export } from "iconsax-react-native";
 import querystring from "querystring";
 
 const axiosClient = axios.create( {

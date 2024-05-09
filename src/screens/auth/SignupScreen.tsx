@@ -24,7 +24,7 @@ const initValue = {
 }
 const SignupScreen = ( { navigation }: any ) =>
 {
-    const [ values, setValues ] = useState( initValue )
+    const [ values, setValues ] = useState( initValue );
     const [ isLoading, setIsLoading ] = useState( false );
     const [ errorMessage, setErrorMessage ] = useState<any>();
     const [ isDisabled, setIsDisabled ] = useState( true );
@@ -82,16 +82,17 @@ const SignupScreen = ( { navigation }: any ) =>
     const handleRegister = async () =>
     {
         const api = '/verification';
+        setIsLoading( true );
         try
         {
             const res = await authenticationAPI.HandleAuthentication( api, { email: values.email }, 'post' );
-            console.log( res );
-            setIsLoading( true );
-            console.log( res.data.code );
-            navigation.navigate( 'VerificationScreen', { verificationCode: res.data.code, ...values } )
+            console.log( `res.data.code=${ res.data.verificationCode }` );
+            setIsLoading( false );
+            navigation.navigate( 'VerificationScreen', { code: res.data.verificationCode, ...values } )
         } catch ( error )
         {
             console.log( error );
+            setIsLoading( false );
         }
         // const { username, email, phone, password } = values;
         // const emailValidation = Validate.email( values.email );
