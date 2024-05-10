@@ -156,13 +156,6 @@ const SignupScreen = ( { navigation }: any ) =>
                             onChange={val => handleChangeValue( 'email', val )}
                             allowClear
                             onEnd={() => formValidator( 'email' )} />
-
-                        <InputComponent
-                            value={values.phone}
-                            prefix={<Feather name='smartphone' size={24} color={appColors.primary} />}
-                            placeholder='Phone number'
-                            onChange={val => handleChangeValue( 'phone', val )}
-                            allowClear />
                         <InputComponent
                             value={values.password}
                             prefix={<Feather name='lock' size={24} color={appColors.primary} />}
@@ -171,6 +164,12 @@ const SignupScreen = ( { navigation }: any ) =>
                             allowClear
                             isPassword
                             onEnd={() => formValidator( 'password' )} />
+                        <InputComponent
+                            value={values.phone}
+                            prefix={<Feather name='smartphone' size={24} color={appColors.primary} />}
+                            placeholder='Phone number'
+                            onChange={val => handleChangeValue( 'phone', val )}
+                            allowClear />
                     </SectionComponent>
 
                     {errorMessage && ( errorMessage.email || errorMessage.password ) && (
