@@ -6,6 +6,7 @@ import KeyBoardAvoidingContainer from "./KeyBoardAvoidingContainer";
 import LinearGradientComponent from "./LinearGradientComponent";
 import RowComponent from "./RowComponent";
 import SectionComponent from "./SectionComponent";
+import SocialLogin from "./SocialLogin";
 import SpaceComponent from "./SpaceComponent";
 import TextComponent from "./TextComponent";
 import TitleComponent from "./TitleComponent";
@@ -22,5 +23,6 @@ export
     LinearGradientComponent,
     TitleComponent,
     SectionComponent,
-    KeyBoardAvoidingContainer
+    KeyBoardAvoidingContainer,
+    SocialLogin
 }

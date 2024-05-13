@@ -3,7 +3,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useDispatch } from 'react-redux'
 import authenticationAPI from '../../apis/authApi'
-import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
+import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SocialLogin, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 import { LoadingModal } from '../../modals'
@@ -191,10 +191,7 @@ const SignupScreen = ( { navigation }: any ) =>
                             <TextComponent text='or Sign up by' />
                         </RowComponent>
                         <SpaceComponent height={10} />
-                        <RowComponent justify='center'>
-                            <ButtonComponent type='primary' color={appColors.primary} text="Facebook" />
-                            <ButtonComponent type='primary' color={appColors.google_logo} text="Google" />
-                        </RowComponent>
+                        <SocialLogin />
                         <SpaceComponent height={10} />
                         <RowComponent>
                             <TextComponent text='By creating an account,' />

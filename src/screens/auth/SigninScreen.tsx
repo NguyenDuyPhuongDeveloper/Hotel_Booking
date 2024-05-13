@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Image, Switch } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
-import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '../../components'
+import { BlankComponent, ButtonComponent, InputComponent, RowComponent, SectionComponent, SocialLogin, SpaceComponent, TextComponent } from '../../components'
 import LinearGradientComponent from '../../components/LinearGradientComponent'
 import { appColors } from '../../constants/appColors'
 import { appInfos } from '../../constants/appInfos'
@@ -13,13 +13,27 @@ import { addAuth } from '../../redux/reducers/authReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
+
 const SigninScreen = ( { navigation }: any ) =>
 {
     const [ email, setEmail ] = useState( '' );
     const [ password, setPassword ] = useState( '' );
     const [ isRemember, setIsRemember ] = useState( true );
+    const [ isDisable, setIsDisable ] = useState( true );
 
     const dispatch = useDispatch();
+
+    useEffect( () =>
+    {
+        const emailValidation = Validate.email( email );
+        if ( !email || !password || !emailValidation )
+        {
+            setIsDisable( true );
+        } else
+        {
+            setIsDisable( false );
+        }
+    }, [ email, password ] );
 
     const handleLogin = async () =>
     {
@@ -96,17 +110,14 @@ const SigninScreen = ( { navigation }: any ) =>
                     </RowComponent>
                 </SectionComponent>
                 <SectionComponent>
-                    <ButtonComponent type='primary' text="SIGN IN" styles={{ width: '100%' }} onPress={handleLogin} />
+                    <ButtonComponent disable={isDisable} type='primary' text="SIGN IN" styles={{ width: '100%' }} onPress={handleLogin} />
                 </SectionComponent>
                 <SectionComponent>
                     <RowComponent>
                         <TextComponent text='or Sign in by' />
                     </RowComponent>
                     <SpaceComponent height={10} />
-                    <RowComponent justify='center'>
-                        <ButtonComponent type='primary' color={appColors.primary} text="Facebook" />
-                        <ButtonComponent type='primary' color={appColors.google_logo} text="Google" />
-                    </RowComponent>
+                    <SocialLogin />
                     <SpaceComponent height={10} />
                     <RowComponent>
                         <TextComponent text='By creating an account,' />
