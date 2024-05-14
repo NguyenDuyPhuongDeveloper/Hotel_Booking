@@ -1,3 +1,5 @@
+import { red } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+
 export const appColors = {
 
     primary: '#2D6ADC',
@@ -11,7 +13,8 @@ export const appColors = {
     gray: '#dadada',
     line: '#c4c4c4',
     warn: '#ff4900',
-    google_logo: '#D14426'
+    google_logo: '#D14426',
+    red: '#ff3b30',
 
 
 }

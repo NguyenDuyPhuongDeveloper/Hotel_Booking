@@ -4,6 +4,7 @@ import { appColors } from '../../constants/appColors';
 import { RowComponent } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LocationModal from './LocationModal';
+import DateModal from './DateModal';
 
 const MainSearchBox = () =>
 {
@@ -15,18 +16,16 @@ const MainSearchBox = () =>
     const [ child, setChild ] = useState( 0 );
 
     const [ showLocationModal, setShowLocationModal ] = useState( false );
-    const [ selectedLocation, setSelectedLocation ] = useState( null );
+    const [ showDateModal, setShowDateModal ] = useState( false );
 
-
+    // Location Modal
     const openLocationModal = () =>
     {
         setShowLocationModal( true );
     };
     const handleLocationSelect = ( location: any ) =>
     {
-        setSelectedLocation( location );
-        setLocation( `${ location.name }, ${ location.adminName1 } ` );
-        console.log( 'selectedLocation', location );
+        setLocation( `${ location.name }, ${ location.adminName1 }` );
         setShowLocationModal( false );
     };
     const closeLocationModal = () =>
@@ -34,15 +33,26 @@ const MainSearchBox = () =>
         setShowLocationModal( false );
     };
 
+    // Date Modal
     const openSelectDateModal = () =>
     {
-
+        setShowDateModal( true );
+    };
+    const handleDateSelect = ( checkin: Date, checkout: Date ) =>
+    {
+        setCheckinDate( checkin );
+        setCheckoutDate( checkout );
+        setShowDateModal( false );
+    };
+    const closeDateModal = () =>
+    {
+        setShowDateModal( false );
     };
 
-
+    // Guests Modal
     const openGuestsModal = () =>
     {
-
+        // Handle opening guests modal
     };
 
     const searchHotels = () =>
@@ -53,7 +63,7 @@ const MainSearchBox = () =>
     return (
         <View>
             <View style={styles.container}>
-                <TouchableOpacity style={{ alignItems: 'center' }} >
+                <TouchableOpacity style={{ alignItems: 'center' }}>
                     <RowComponent>
                         <AntDesign name="search1" size={24} color={appColors.black} />
                         <TextInput
@@ -65,23 +75,23 @@ const MainSearchBox = () =>
                         />
                     </RowComponent>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ alignItems: 'center' }} >
+                <TouchableOpacity style={{ alignItems: 'center' }}>
                     <RowComponent>
                         <AntDesign name="calendar" size={24} color={appColors.black} />
                         <TextInput
                             style={styles.input}
                             placeholder={`${ checkinDate.toLocaleDateString() } - ${ checkoutDate.toLocaleDateString() }`}
                             onPressIn={openSelectDateModal}
+                            cursorColor='transparent'
                         />
                     </RowComponent>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ alignItems: 'center' }}  >
+                <TouchableOpacity style={{ alignItems: 'center' }}>
                     <RowComponent>
                         <AntDesign name="user" size={24} color={appColors.black} />
                         <TextInput
                             style={styles.input}
-                            placeholder="Nhập địa điểm"
-                            value={` ${ rooms } room, ${ guests } guests, ${ child } children`}
+                            placeholder={` ${ rooms } room, ${ guests } guests, ${ child } children`}
                             onChangeText={setLocation}
                             onPressIn={openGuestsModal}
                         />
@@ -89,6 +99,7 @@ const MainSearchBox = () =>
                 </TouchableOpacity>
             </View>
             <LocationModal visible={showLocationModal} onClose={closeLocationModal} onLocationSelect={handleLocationSelect} />
+            <DateModal visible={showDateModal} onClose={closeDateModal} onDateSelect={handleDateSelect} />
         </View>
     );
 };
@@ -106,8 +117,8 @@ const styles = StyleSheet.create( {
         flex: 1,
         paddingHorizontal: 10,
         fontSize: 16,
-        color: appColors.black
-    }
+        color: appColors.black,
+    },
 } );
 
 export default MainSearchBox;
