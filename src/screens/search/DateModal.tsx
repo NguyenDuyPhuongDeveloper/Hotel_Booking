@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { appColors } from '../../constants/appColors';
+import { fontFamilies } from '../../constants/fontFamilies';
 
 interface Props
 {
@@ -88,12 +89,16 @@ const styles = StyleSheet.create( {
     },
     title: {
         fontSize: 20,
-        fontWeight: 'bold',
         marginBottom: 20,
+        color: appColors.text,
+        fontFamily: fontFamilies.bold,
+        textAlign: 'center',
+
     },
     dateText: {
         fontSize: 18,
         marginBottom: 20,
+        color: appColors.text,
     },
     confirmButton: {
         marginTop: 20,

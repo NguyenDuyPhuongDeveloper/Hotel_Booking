@@ -5,6 +5,7 @@ import { RowComponent } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LocationModal from './LocationModal';
 import DateModal from './DateModal';
+import GuestModal from './GuestModal';
 
 const MainSearchBox = () =>
 {
@@ -13,10 +14,11 @@ const MainSearchBox = () =>
     const [ checkoutDate, setCheckoutDate ] = useState( new Date() );
     const [ guests, setGuests ] = useState( 2 );
     const [ rooms, setRooms ] = useState( 1 );
-    const [ child, setChild ] = useState( 0 );
+    const [ children, setChildren ] = useState( 0 );
 
     const [ showLocationModal, setShowLocationModal ] = useState( false );
     const [ showDateModal, setShowDateModal ] = useState( false );
+    const [ showGuestModal, setShowGuestModal ] = useState( false );
 
     // Location Modal
     const openLocationModal = () =>
@@ -52,7 +54,18 @@ const MainSearchBox = () =>
     // Guests Modal
     const openGuestsModal = () =>
     {
-        // Handle opening guests modal
+        setShowGuestModal( true );
+    };
+    const handleGuestSelect = ( rooms: number, guests: number, children: number ) =>
+    {
+        setRooms( rooms );
+        setGuests( guests );
+        setChildren( children );
+        setShowGuestModal( false );
+    };
+    const closeGuestModal = () =>
+    {
+        setShowGuestModal( false );
     };
 
     const searchHotels = () =>
@@ -82,7 +95,6 @@ const MainSearchBox = () =>
                             style={styles.input}
                             placeholder={`${ checkinDate.toLocaleDateString() } - ${ checkoutDate.toLocaleDateString() }`}
                             onPressIn={openSelectDateModal}
-                            cursorColor='transparent'
                         />
                     </RowComponent>
                 </TouchableOpacity>
@@ -91,7 +103,7 @@ const MainSearchBox = () =>
                         <AntDesign name="user" size={24} color={appColors.black} />
                         <TextInput
                             style={styles.input}
-                            placeholder={` ${ rooms } room, ${ guests } guests, ${ child } children`}
+                            placeholder={` ${ rooms } room, ${ guests } guests, ${ children } children`}
                             onChangeText={setLocation}
                             onPressIn={openGuestsModal}
                         />
@@ -100,6 +112,7 @@ const MainSearchBox = () =>
             </View>
             <LocationModal visible={showLocationModal} onClose={closeLocationModal} onLocationSelect={handleLocationSelect} />
             <DateModal visible={showDateModal} onClose={closeDateModal} onDateSelect={handleDateSelect} />
+            <GuestModal visible={showGuestModal} onClose={closeGuestModal} onGuestSelect={handleGuestSelect} />
         </View>
     );
 };
