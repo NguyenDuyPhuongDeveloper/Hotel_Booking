@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { appInfos } from '../../constants/appInfos'
 import { fontFamilies } from '../../constants/fontFamilies'
 import CircleComponent from '../../components/CircleComponent'
+import MainSearchBox from '../search/MainSearchBox'
 
 const HomeScreen = () =>
 {
@@ -50,14 +51,12 @@ const HomeScreen = () =>
                                 }} />
                             </View>
                         </CircleComponent>
-
-
                     </RowComponent>
                 </View>
             </LinearGradient >
 
-            <View style={{ flex: 1 }}>
-
+            <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
+                <MainSearchBox />
             </View>
             <Text>HomeScreen</Text>
             <Button title="Sign Out" onPress={async () =>

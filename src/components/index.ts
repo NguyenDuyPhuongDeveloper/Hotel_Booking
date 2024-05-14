@@ -1,5 +1,6 @@
 import BlankComponent from "./BlankComponent";
 import ButtonComponent from "./ButtonComponent";
+import CircleComponent from "./CircleComponent";
 import Container from "./Container";
 import InputComponent from "./InputComponent";
 import KeyBoardAvoidingContainer from "./KeyBoardAvoidingContainer";
@@ -24,5 +25,6 @@ export
     TitleComponent,
     SectionComponent,
     KeyBoardAvoidingContainer,
-    SocialLogin
+    SocialLogin,
+    CircleComponent
 }
