@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet, Button } from 'react-native';
 import { appColors } from '../../constants/appColors';
-import { RowComponent } from '../../components';
+import { ButtonComponent, RowComponent } from '../../components';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LocationModal from './LocationModal';
 import DateModal from './DateModal';
 import GuestModal from './GuestModal';
+import { LoadingModal } from '../../modals';
+import serviceAPI from '../../apis/serviceApi';
 
 const MainSearchBox = () =>
 {
@@ -15,6 +17,8 @@ const MainSearchBox = () =>
     const [ guests, setGuests ] = useState( 2 );
     const [ rooms, setRooms ] = useState( 1 );
     const [ children, setChildren ] = useState( 0 );
+
+    const [ isLoading, setIsLoading ] = useState( false );
 
     const [ showLocationModal, setShowLocationModal ] = useState( false );
     const [ showDateModal, setShowDateModal ] = useState( false );
@@ -27,6 +31,7 @@ const MainSearchBox = () =>
     };
     const handleLocationSelect = ( location: any ) =>
     {
+        console.log( 'location', location );
         setLocation( `${ location.name }, ${ location.adminName1 }` );
         setShowLocationModal( false );
     };
@@ -44,6 +49,8 @@ const MainSearchBox = () =>
     {
         setCheckinDate( checkin );
         setCheckoutDate( checkout );
+        console.log( 'checkin', checkinDate );
+        console.log( 'checkout', checkoutDate );
         setShowDateModal( false );
     };
     const closeDateModal = () =>
@@ -68,9 +75,30 @@ const MainSearchBox = () =>
         setShowGuestModal( false );
     };
 
-    const searchHotels = () =>
+    const searchHotels = async () =>
     {
-        // Thực hiện tìm kiếm và chuyển đến màn hình kết quả tìm kiếm
+        const api = '/searchHotels';
+        setIsLoading( true );
+        try
+        {
+            const searchParams = {
+                location: location,
+                checkinDate: checkinDate.toISOString(),
+                checkoutDate: checkoutDate.toISOString(),
+                guests: guests,
+                rooms: rooms,
+                child: children,
+            };
+            console.log( `searchParams= `, searchParams );
+            const res = await serviceAPI.HandleService( api, searchParams, 'get' );
+            console.log( `res= `, res );
+            setIsLoading( false );
+            //navigation.navigate( 'VerificationScreen', { code: res.data.verificationCode, ...values } )
+        } catch ( error )
+        {
+            console.log( error );
+            setIsLoading( false );
+        }
     };
 
     return (
@@ -109,22 +137,29 @@ const MainSearchBox = () =>
                         />
                     </RowComponent>
                 </TouchableOpacity>
+                <ButtonComponent
+                    type='primary'
+                    text="Search"
+                    onPress={searchHotels}
+                    styles={{ width: '100%' }}
+                />
             </View>
+
             <LocationModal visible={showLocationModal} onClose={closeLocationModal} onLocationSelect={handleLocationSelect} />
             <DateModal visible={showDateModal} onClose={closeDateModal} onDateSelect={handleDateSelect} />
             <GuestModal visible={showGuestModal} onClose={closeGuestModal} onGuestSelect={handleGuestSelect} />
+            <LoadingModal visible={isLoading} />
         </View>
     );
 };
 
 const styles = StyleSheet.create( {
     container: {
-        alignItems: 'center',
         backgroundColor: appColors.white,
         borderRadius: 10,
         padding: 10,
         borderColor: appColors.yellow,
-        borderWidth: 1,
+        borderWidth: 2,
     },
     input: {
         flex: 1,

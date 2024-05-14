@@ -21,13 +21,11 @@ const LocationModal = ( props: Props ) =>
     const handleSearch = async ( value: string ) =>
     {
         setSearchTerm( value );
-        console.log( 'value', value );
         try
         {
             // Encode the query parameter properly
             const encodedValue = encodeURIComponent( value );
             const res = await serviceAPI.HandleService( `/locations?query=${ encodedValue }`, {}, 'get' );
-            console.log( 'res.data', res.geonames );
             setLocations( res.geonames );
         } catch ( err )
         {
