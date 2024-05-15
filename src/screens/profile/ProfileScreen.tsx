@@ -92,6 +92,10 @@ const ProfileScreen = ( { navigation }: any ) =>
     {
         navigation.navigate( 'EditProfileScreen', { onGoBack: () => getUserInfo() } );
     };
+    const handleSetting = async () =>
+    {
+        navigation.navigate( 'SettingScreen', userId );
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: appColors.primary }}>
@@ -159,7 +163,8 @@ const ProfileScreen = ( { navigation }: any ) =>
                     <SpaceComponent height={10} />
                     <TitleComponent text="Setting and legal" color={appColors.black} size={20} font={fontFamilies.semiBold} />
                     <RowComponent justify='flex-start' >
-                        <ButtonComponent type='primary' text="Settings" textColor={appColors.black} color='transparent' iconFlex='left' icon={<AntDesign name="setting" size={20} color={appColors.warn} />}
+                        <ButtonComponent onPress={handleSetting}
+                            type='primary' text="Settings" textColor={appColors.black} color='transparent' iconFlex='left' icon={<AntDesign name="setting" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
                     <RowComponent justify='flex-start' >

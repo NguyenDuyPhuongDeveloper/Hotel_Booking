@@ -6,12 +6,10 @@ import { LoadingModal } from '../../modals';
 import { appColors } from '../../constants/appColors';
 import hotelAPI from '../../apis/hotelApi';
 import { BlankComponent, SectionComponent } from '../../components';
-import { Section } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+
 
 const ListPropertyScreen = ( { navigation, route }: any ) =>
 {
-    const dispatch = useDispatch();
-
     const [ name, setName ] = useState( '' );
     const [ description, setDescription ] = useState( '' );
     const [ address, setAddress ] = useState( '' );
