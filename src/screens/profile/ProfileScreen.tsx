@@ -14,6 +14,7 @@ import { removeAuth } from '../../redux/reducers/authReducer'
 import { globalStyles } from '../../styles/globalStyles'
 import userAPI from '../../apis/userApi'
 import { LoadingModal } from '../../modals'
+import { useNavigation } from '@react-navigation/native';
 
 
 const ProfileScreen = ( { navigation }: any ) =>
@@ -24,8 +25,10 @@ const ProfileScreen = ( { navigation }: any ) =>
     const [ name, setName ] = useState( '' );
     const [ email, setEmail ] = useState( '' );
     const [ photo, setPhoto ] = useState<string>( '' );
+    const [ role, setRole ] = useState( '' );
 
     const [ isLoading, setIsLoading ] = useState( false );
+
 
 
     const checkLogin = async () =>
@@ -53,6 +56,7 @@ const ProfileScreen = ( { navigation }: any ) =>
             getUserInfo();
         }
     }, [ userId ] );
+
     const getUserInfo = async () =>
     {
         const api = `/getUserInfo?uid=${ userId }`;
@@ -60,9 +64,11 @@ const ProfileScreen = ( { navigation }: any ) =>
         try
         {
             const res = await userAPI.HandleUser( api, 'get' );
+            console.log( res );
             setName( res.data.name );
             setEmail( res.data.email );
             setPhoto( res.data.photo );
+            setRole( res.data.role );
             setIsLoading( false );
         } catch ( error )
         {
@@ -72,6 +78,17 @@ const ProfileScreen = ( { navigation }: any ) =>
     };
 
     const dispatch = useDispatch();
+    const handleListProperty = async () =>
+    {
+        if ( role === 'user' )
+        {
+            navigation.navigate( 'PartnerRegisterScreen', { userId, onGoBack: () => getUserInfo() } );
+        } else
+        {
+            navigation.navigate( 'ListPropertyScreen' );
+        }
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: appColors.primary }}>
             <StatusBar barStyle="light-content" />
@@ -120,13 +137,14 @@ const ProfileScreen = ( { navigation }: any ) =>
                         <Image
                             style={styles.tinyLogo}
                             source={{
-                                uri: photo,
+                                uri: photo || 'https://via.placeholder.com/150',
                             }}
                         />
                     </CircleComponent>
                     <SpaceComponent height={10} />
                     <TitleComponent text={name} color={appColors.white} size={24} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
                     <TextComponent text={email} color={appColors.white} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
+                    <TextComponent text={role} color={appColors.white} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
                     <TitleComponent text="Account" color={appColors.black} size={20} font={fontFamilies.semiBold} />
@@ -155,7 +173,7 @@ const ProfileScreen = ( { navigation }: any ) =>
                     <SpaceComponent height={10} />
                     <TitleComponent text="Partners" color={appColors.black} size={20} font={fontFamilies.semiBold} />
                     <RowComponent justify='flex-start' >
-                        <ButtonComponent type='primary' text="List your property" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="domain-add" size={20} color={appColors.warn} />}
+                        <ButtonComponent onPress={handleListProperty} type='primary' text="List your property" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="domain-add" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
                     <RowComponent justify='flex-start' >
