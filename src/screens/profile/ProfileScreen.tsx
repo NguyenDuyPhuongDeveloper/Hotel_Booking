@@ -14,7 +14,6 @@ import { removeAuth } from '../../redux/reducers/authReducer'
 import { globalStyles } from '../../styles/globalStyles'
 import userAPI from '../../apis/userApi'
 import { LoadingModal } from '../../modals'
-import { useNavigation } from '@react-navigation/native';
 
 
 const ProfileScreen = ( { navigation }: any ) =>

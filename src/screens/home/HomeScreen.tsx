@@ -1,6 +1,5 @@
 import React from 'react'
 import { StatusBar, TouchableOpacity, View } from 'react-native'
-
 import { HambergerMenu, Notification } from 'iconsax-react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import { RowComponent, TextComponent } from '../../components'
@@ -9,7 +8,7 @@ import { appColors } from '../../constants/appColors'
 import { fontFamilies } from '../../constants/fontFamilies'
 import MainSearchBox from '../search/MainSearchBox'
 
-const HomeScreen = () =>
+const HomeScreen = ( { navigation }: any ) =>
 {
 
     return (

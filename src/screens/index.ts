@@ -8,6 +8,11 @@ import BookingScreen from './book/BookingScreen';
 import ProfileScreen from './profile/ProfileScreen';
 import SavedScreen from './favorite/SavedScreen';
 import EditProfileScreen from './profile/EditProfileScreen';
+import SearchScreen from './search/SearchScreen';
+import ListPropertyScreen from './profile/ListPropertyScreen';
+import PartnerRegisterScreen from './profile/PartnerRegisterScreen';
+import ManagePropertyScreen from './profile/ManagePropertyScreen';
+import HotelDetails from './search/HotelDetails';
 export
 {
     SplashScreen,
@@ -20,5 +25,10 @@ export
     ProfileScreen,
     SavedScreen,
     EditProfileScreen,
+    SearchScreen,
+    ListPropertyScreen,
+    PartnerRegisterScreen,
+    ManagePropertyScreen,
+    HotelDetails
 
 }

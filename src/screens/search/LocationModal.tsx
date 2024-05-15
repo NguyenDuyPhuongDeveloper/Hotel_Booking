@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, TextInput, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import serviceAPI from '../../apis/serviceApi';
-import { TextComponent } from '../../components';
+import { RowComponent, TextComponent } from '../../components';
 import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamilies';
 
@@ -47,6 +47,12 @@ const LocationModal = ( props: Props ) =>
         onClose();
     };
 
+    const handleApplyLocationInput = async ( location: any ) =>
+    {
+        onLocationSelect( searchTerm );
+        onClose();
+    };
+
     return (
         <Modal visible={visible} animationType="slide">
             <View style={styles.modalContainer}>
@@ -68,9 +74,15 @@ const LocationModal = ( props: Props ) =>
                         </TouchableOpacity>
                     )}
                 />
-                <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                    <Text style={styles.text}>CLOSE</Text>
-                </TouchableOpacity>
+                <RowComponent justify='space-between'>
+                    <TouchableOpacity style={styles.applyButton} onPress={handleApplyLocationInput}>
+                        <Text style={styles.text}>APPLY</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                        <Text style={styles.text}>CLOSE</Text>
+                    </TouchableOpacity>
+                </RowComponent>
+
             </View>
         </Modal>
     );
@@ -95,6 +107,15 @@ const styles = StyleSheet.create( {
         borderBottomColor: '#ccc',
     },
     closeButton: {
+        alignItems: 'center',
+        width: '40%',
+        marginTop: 20,
+        alignSelf: 'center',
+        padding: 10,
+        backgroundColor: appColors.red,
+        borderRadius: 5,
+    },
+    applyButton: {
         alignItems: 'center',
         width: '40%',
         marginTop: 20,

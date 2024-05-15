@@ -8,6 +8,7 @@ import DateModal from './DateModal';
 import GuestModal from './GuestModal';
 import { LoadingModal } from '../../modals';
 import serviceAPI from '../../apis/serviceApi';
+import { useNavigation } from '@react-navigation/native';
 
 const MainSearchBox = () =>
 {
@@ -17,8 +18,9 @@ const MainSearchBox = () =>
     const [ guests, setGuests ] = useState( 2 );
     const [ rooms, setRooms ] = useState( 1 );
     const [ children, setChildren ] = useState( 0 );
-
     const [ isLoading, setIsLoading ] = useState( false );
+
+    const navigation: any = useNavigation();
 
     const [ showLocationModal, setShowLocationModal ] = useState( false );
     const [ showDateModal, setShowDateModal ] = useState( false );
@@ -32,7 +34,16 @@ const MainSearchBox = () =>
     const handleLocationSelect = ( location: any ) =>
     {
         console.log( 'location', location );
-        setLocation( `${ location.name }, ${ location.adminName1 }` );
+        if ( location.adminName1 )
+        {
+            setLocation( `${ location.name }, ${ location.adminName1 }` );
+        }
+        else
+        {
+            setLocation( location );
+        }
+
+
         setShowLocationModal( false );
     };
     const closeLocationModal = () =>
@@ -93,7 +104,7 @@ const MainSearchBox = () =>
             const res = await serviceAPI.HandleService( api, searchParams, 'get' );
             console.log( `res= `, res );
             setIsLoading( false );
-            //navigation.navigate( 'VerificationScreen', { code: res.data.verificationCode, ...values } )
+            navigation.navigate( 'SearchScreen', { hotels: res.data, totalResults: res.totalResults } );
         } catch ( error )
         {
             console.log( error );
