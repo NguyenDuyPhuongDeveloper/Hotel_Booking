@@ -27,7 +27,7 @@ const ForgotPassword = () =>
             const res: any = await authenticationAPI.HandleAuthentication( api, { email }, 'post' );
             console.log( res );
             setIsLoading( false );
-            Alert.alert( 'Send mail', 'We have sent an email including new password! ' );
+            Alert.alert( 'Sent mail', 'We have sent an email including new password! ' );
 
 
         } catch ( error )

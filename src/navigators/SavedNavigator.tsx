@@ -10,7 +10,7 @@ const SavedNavigator = () =>
             headerShown: false
 
         }}>
-            <Stack.Screen name='Saved' component={SavedScreen} />
+            <Stack.Screen name='SavedScreen' component={SavedScreen} />
         </Stack.Navigator>
     )
 }

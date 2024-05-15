@@ -17,12 +17,13 @@ interface Props
     children: React.ReactNode;
     back?: boolean;
     styles?: StyleProp<ViewStyle>;
+    topBarColor?: string;
 
 }
 
 const BlankComponent = ( props: Props ) =>
 {
-    const { title, height, width, children, styles, back } = props;
+    const { title, height, width, children, styles, back, topBarColor } = props;
     const navigation: any = useNavigation();
     const localStyle =
         [
@@ -35,7 +36,7 @@ const BlankComponent = ( props: Props ) =>
 
         ]
     return (
-        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 30, paddingBottom: 10 }}>
+        <View style={{ flex: 1, width: '100%', justifyContent: 'flex-start', alignItems: 'center', paddingTop: 30, paddingBottom: 10, backgroundColor: topBarColor ?? 'transparent', }}>
             {( title || back ) && ( <RowComponent
                 styles={{
                     paddingHorizontal: 18,
@@ -47,6 +48,7 @@ const BlankComponent = ( props: Props ) =>
                     borderWidth: 0.5,
                     borderColor: appColors.white,
                     borderRadius: 16,
+                    backgroundColor: topBarColor ?? 'transparent',
                 }}>
                 {back && (
                     <TouchableOpacity

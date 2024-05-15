@@ -7,6 +7,7 @@ import VerificationScreen from './auth/VerificationScreen';
 import BookingScreen from './book/BookingScreen';
 import ProfileScreen from './profile/ProfileScreen';
 import SavedScreen from './favorite/SavedScreen';
+import EditProfileScreen from './profile/EditProfileScreen';
 export
 {
     SplashScreen,
@@ -18,5 +19,6 @@ export
     BookingScreen,
     ProfileScreen,
     SavedScreen,
+    EditProfileScreen,
 
 }

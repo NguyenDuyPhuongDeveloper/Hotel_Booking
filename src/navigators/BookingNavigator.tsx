@@ -10,7 +10,7 @@ const BookingNavigator = () =>
             headerShown: false
 
         }}>
-            <Stack.Screen name='Booking' component={BookingScreen} />
+            <Stack.Screen name='BookingScreen' component={BookingScreen} />
         </Stack.Navigator>
     )
 }

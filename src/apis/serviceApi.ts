@@ -1,5 +1,5 @@
-import axiosClient from "./axiosClient";
 import { appInfos } from "../constants/appInfos";
+import axiosClient from "./axiosClient";
 
 class ServiceAPI
 {

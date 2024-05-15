@@ -25,7 +25,7 @@ const AppRouters = () =>
     const checkLogin = async () =>
     {
         const res = await getItem();
-        console.log( res );
+        console.log( 'check Login-authRouter', res );
         res && dispatch( addAuth( JSON.parse( res ) ) );
     };
     return (

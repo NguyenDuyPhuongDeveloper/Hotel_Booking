@@ -47,6 +47,16 @@ export const globalStyles = StyleSheet.create( {
         shadowRadius: 8,
         elevation: 6,
     },
+    notShadow: {
+        shadowColor: 'rgba(0,0,0,0)',
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0,
+        shadowRadius: 0,
+        elevation: 0,
+    },
     blank: {
         backgroundColor: appColors.white,
         borderRadius: 16,

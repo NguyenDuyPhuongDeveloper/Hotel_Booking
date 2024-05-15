@@ -25,6 +25,7 @@ interface Props
     onPress?: () => void;
     iconFlex?: 'right' | 'left';
     disable?: boolean;
+    shadow?: boolean;
 }
 
 const ButtonComponent = ( props: Props ) =>

@@ -1,26 +1,22 @@
 import React from 'react'
-import { Button, StatusBar, Text, Touchable, View, TouchableOpacity, Image } from 'react-native'
-import { useDispatch } from 'react-redux'
-import { removeAuth } from '../../redux/reducers/authReducer'
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { appColors } from '../../constants/appColors'
-import { RowComponent, TextComponent } from '../../components'
+import { StatusBar, TouchableOpacity, View } from 'react-native'
+
 import { HambergerMenu, Notification } from 'iconsax-react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { appInfos } from '../../constants/appInfos'
-import { fontFamilies } from '../../constants/fontFamilies'
+import { RowComponent, TextComponent } from '../../components'
 import CircleComponent from '../../components/CircleComponent'
+import { appColors } from '../../constants/appColors'
+import { fontFamilies } from '../../constants/fontFamilies'
 import MainSearchBox from '../search/MainSearchBox'
 
 const HomeScreen = () =>
 {
-    const dispatch = useDispatch();
+
     return (
         <View style={{ flex: 1 }}>
             <StatusBar barStyle="light-content" />
             <LinearGradient colors={[ '#00BD6B', '#2D6ADC' ]} style={{
-                height: 150,
+                height: 120,
                 borderBottomLeftRadius: 20,
                 borderBottomRightRadius: 20,
                 padding: StatusBar.currentHeight,
@@ -58,13 +54,7 @@ const HomeScreen = () =>
             <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
                 <MainSearchBox />
             </View>
-            <Text>HomeScreen</Text>
-            <Button title="Sign Out" onPress={async () =>
-            {
-                await AsyncStorage.clear();
-                await GoogleSignin.signOut();
-                dispatch( removeAuth( {} ) );
-            }} />
+
         </View >
     )
 }
