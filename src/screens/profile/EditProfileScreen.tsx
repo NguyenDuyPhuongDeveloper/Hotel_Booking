@@ -12,11 +12,10 @@ import firebase from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import { useNavigation } from '@react-navigation/native';
 
-const EditProfileScreen = () =>
+const EditProfileScreen = ( { navigation, route }: any ) =>
 {
     const { getItem } = useAsyncStorage( 'auth' );
     const dispatch = useDispatch();
-    const navigation: any = useNavigation();
 
     const [ userId, setUserId ] = useState( '' );
     const [ name, setName ] = useState( '' );
@@ -156,6 +155,7 @@ const EditProfileScreen = () =>
             setIsLoading( false );
             Alert.alert( 'Update Infomation', 'Your information has been updated! ' );
             navigation.goBack();
+            route.params.onGoBack();
         } catch ( error )
         {
             setIsLoading( false );

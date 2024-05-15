@@ -9,9 +9,6 @@ import { LoadingModal } from '../../modals'
 const PartnerRegisterScreen = ( { navigation, route }: any ) =>
 {
     const [ isLoading, setIsLoading ] = React.useState( false );
-
-
-
     const handleRegister = async () =>
     {
         const id = route.params.userId;

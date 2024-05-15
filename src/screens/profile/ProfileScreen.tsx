@@ -87,7 +87,11 @@ const ProfileScreen = ( { navigation }: any ) =>
         {
             navigation.navigate( 'ListPropertyScreen' );
         }
-    }
+    };
+    const handleEditProfile = async () =>
+    {
+        navigation.navigate( 'EditProfileScreen', { onGoBack: () => getUserInfo() } );
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: appColors.primary }}>
@@ -149,7 +153,7 @@ const ProfileScreen = ( { navigation }: any ) =>
                 <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
                     <TitleComponent text="Account" color={appColors.black} size={20} font={fontFamilies.semiBold} />
                     <RowComponent justify='flex-start' >
-                        <ButtonComponent onPress={() => navigation.navigate( 'EditProfileScreen' )}
+                        <ButtonComponent onPress={handleEditProfile}
                             type='primary' text="Profile" textColor={appColors.black} color='transparent' iconFlex='left' icon={<AntDesign name="user" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
