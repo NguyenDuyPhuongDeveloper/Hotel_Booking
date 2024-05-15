@@ -85,7 +85,7 @@ const ProfileScreen = ( { navigation }: any ) =>
             navigation.navigate( 'PartnerRegisterScreen', { userId, onGoBack: () => getUserInfo() } );
         } else
         {
-            navigation.navigate( 'ListPropertyScreen' );
+            navigation.navigate( 'ListPropertyScreen', userId );
         }
     };
     const handleEditProfile = async () =>
@@ -148,7 +148,6 @@ const ProfileScreen = ( { navigation }: any ) =>
                     <SpaceComponent height={10} />
                     <TitleComponent text={name} color={appColors.white} size={24} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
                     <TextComponent text={email} color={appColors.white} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
-                    <TextComponent text={role} color={appColors.white} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
                     <TitleComponent text="Account" color={appColors.black} size={20} font={fontFamilies.semiBold} />

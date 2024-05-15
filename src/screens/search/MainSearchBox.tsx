@@ -109,7 +109,7 @@ const MainSearchBox = () =>
                         <AntDesign name="search1" size={24} color={appColors.black} />
                         <TextInput
                             style={styles.input}
-                            placeholder="Nhập địa điểm"
+                            placeholder="Enter Location"
                             value={location}
                             onChangeText={setLocation}
                             onPressIn={openLocationModal}

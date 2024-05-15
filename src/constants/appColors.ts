@@ -15,6 +15,7 @@ export const appColors = {
     warn: '#ff4900',
     google_logo: '#D14426',
     red: '#ff3b30',
+    green2: '#4cd964',
 
 
 }

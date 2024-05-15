@@ -12,7 +12,7 @@ const PartnerRegisterScreen = ( { navigation, route }: any ) =>
     const handleRegister = async () =>
     {
         const id = route.params.userId;
-        console.log( "userId", id );
+
         setIsLoading( true );
         const data = {};
         const api = `/updateRole?uid=${ id }`;
