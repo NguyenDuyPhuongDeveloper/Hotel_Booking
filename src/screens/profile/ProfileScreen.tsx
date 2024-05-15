@@ -83,7 +83,7 @@ const ProfileScreen = ( { navigation }: any ) =>
         if ( role === 'user' )
         {
             navigation.navigate( 'PartnerRegisterScreen', { userId, onGoBack: () => getUserInfo() } );
-        } else
+        } else if ( role === 'owner' )
         {
             navigation.navigate( 'ListPropertyScreen', userId );
         }
@@ -95,6 +95,10 @@ const ProfileScreen = ( { navigation }: any ) =>
     const handleSetting = async () =>
     {
         navigation.navigate( 'SettingScreen', userId );
+    }
+    const handleManageProperty = async () =>
+    {
+        navigation.navigate( 'ManagePropertyScreen', userId );
     }
 
     return (
@@ -168,7 +172,7 @@ const ProfileScreen = ( { navigation }: any ) =>
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
                     <RowComponent justify='flex-start' >
-                        <ButtonComponent type='primary' text="Reviews" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="preview" size={20} color={appColors.warn} />}
+                        <ButtonComponent type='primary' text="Reviews (On going)" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="preview" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
                     <SpaceComponent height={10} />
@@ -184,6 +188,10 @@ const ProfileScreen = ( { navigation }: any ) =>
                         <ButtonComponent onPress={handleListProperty} type='primary' text="List your property" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="domain-add" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
                     </RowComponent>
+                    {role === 'owner' && <RowComponent justify='flex-start' >
+                        <ButtonComponent onPress={handleManageProperty} type='primary' text="Manage your property" textColor={appColors.black} color='transparent' iconFlex='left' icon={<MaterialIcons name="post-add" size={20} color={appColors.warn} />}
+                            styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]} />
+                    </RowComponent>}
                     <RowComponent justify='flex-start' >
                         <ButtonComponent type='primary' text="Sign Out" textColor={appColors.black} color='transparent' iconFlex='left' icon={<AntDesign style={{ transform: [ { rotateY: '180deg' } ] }} name="logout" size={20} color={appColors.warn} />}
                             styles={[ globalStyles.notShadow, { width: '100%', justifyContent: 'flex-start' } ]}

@@ -41,15 +41,13 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
             setIsLoading( false );
             console.log( 'Create hotel res', res );
             const hotelId = res.data.id;
-            console.log( 'Hotel ID:', hotelId );
             // Kiểm tra kết quả và chuyển sang màn hình tạo phòng
 
             // navigation.navigate( 'CreateRoomScreen', { hotelId: res.hotelId } );
         } catch ( error )
         {
             setIsLoading( false );
-            console.error( 'Error creating hotel:', error );
-            Alert.alert( 'Error', 'Something went wrong. Please try again later.' );
+            Alert.alert( 'Error', 'The hotel name already exists, please try another one!' );
         }
     };
 

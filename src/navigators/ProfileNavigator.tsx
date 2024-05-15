@@ -4,6 +4,7 @@ import { EditProfileScreen, ProfileScreen } from '../screens'
 import PartnerRegisterScreen from '../screens/profile/PartnerRegisterScreen'
 import ListPropertyScreen from '../screens/profile/ListPropertyScreen'
 import SettingScreen from '../screens/profile/SettingScreen'
+import ManagePropertyScreen from '../screens/profile/ManagePropertyScreen'
 
 const ProfileNavigator = () =>
 {
@@ -16,7 +17,9 @@ const ProfileNavigator = () =>
             <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
             <Stack.Screen name='EditProfileScreen' component={EditProfileScreen} />
             <Stack.Screen name='PartnerRegisterScreen' component={PartnerRegisterScreen} />
+            <Stack.Screen name='ListPropertyScreen' component={ListPropertyScreen} />
             <Stack.Screen name='SettingScreen' component={SettingScreen} />
+            <Stack.Screen name='ManagePropertyScreen' component={ManagePropertyScreen} />
         </Stack.Navigator>
     )
 }
