@@ -1,7 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { HambergerMenu, Notification } from 'iconsax-react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -12,9 +12,65 @@ import { appColors } from '../../constants/appColors'
 import { fontFamilies } from '../../constants/fontFamilies'
 import { removeAuth } from '../../redux/reducers/authReducer'
 import { globalStyles } from '../../styles/globalStyles'
+import userAPI from '../../apis/userApi'
+import { LoadingModal } from '../../modals'
+
 
 const ProfileScreen = ( { navigation }: any ) =>
 {
+    const { getItem } = useAsyncStorage( 'auth' );
+
+    const [ userId, setUserId ] = useState( '' );
+    const [ name, setName ] = useState( '' );
+    const [ email, setEmail ] = useState( '' );
+    const [ photo, setPhoto ] = useState<string>( '' );
+
+    const [ isLoading, setIsLoading ] = useState( false );
+
+
+    const checkLogin = async () =>
+    {
+        const res = await getItem();
+        if ( res )
+        {
+            const parsedRes = JSON.parse( res );
+            setUserId( parsedRes.id );
+        }
+    };
+    useEffect( () =>
+    {
+        const initialize = async () =>
+        {
+            await checkLogin();
+        };
+        initialize();
+    }, [] );
+
+    useEffect( () =>
+    {
+        if ( userId !== '' )
+        {
+            getUserInfo();
+        }
+    }, [ userId ] );
+    const getUserInfo = async () =>
+    {
+        const api = `/getUserInfo?uid=${ userId }`;
+        setIsLoading( true );
+        try
+        {
+            const res = await userAPI.HandleUser( api, 'get' );
+            setName( res.data.name );
+            setEmail( res.data.email );
+            setPhoto( res.data.photo );
+            setIsLoading( false );
+        } catch ( error )
+        {
+            setIsLoading( false );
+            console.log( error );
+        }
+    };
+
     const dispatch = useDispatch();
     return (
         <View style={{ flex: 1, backgroundColor: appColors.primary }}>
@@ -64,12 +120,13 @@ const ProfileScreen = ( { navigation }: any ) =>
                         <Image
                             style={styles.tinyLogo}
                             source={{
-                                uri: 'https://lh3.googleusercontent.com/a/ACg8ocJvGoRycDadFX2Sk53RGm9hAET9HrKiDTUYuyDiisLj7GYzBg=s96-c',
+                                uri: photo,
                             }}
                         />
                     </CircleComponent>
                     <SpaceComponent height={10} />
-                    <TextComponent text="John Doe" color={appColors.white} size={24} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
+                    <TitleComponent text={name} color={appColors.white} size={24} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
+                    <TextComponent text={email} color={appColors.white} font={fontFamilies.semiBold} styles={{ alignSelf: 'center' }} />
                 </View>
                 <View style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}>
                     <TitleComponent text="Account" color={appColors.black} size={20} font={fontFamilies.semiBold} />
@@ -113,7 +170,7 @@ const ProfileScreen = ( { navigation }: any ) =>
                     </RowComponent>
                 </View>
             </ScrollView>
-
+            <LoadingModal visible={isLoading} />
         </View>
     )
 }
