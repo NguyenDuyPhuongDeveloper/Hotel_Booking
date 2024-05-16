@@ -49,7 +49,6 @@ const TabNavigator = () =>
             },
         } )}>
             <Tab.Screen name="Search" component={SearchNavigator} />
-            <Tab.Screen name="Saved" component={SavedNavigator} />
             <Tab.Screen name="Booking" component={BookingNavigator} />
             <Tab.Screen name="Profile" component={ProfileNavigator} />
         </Tab.Navigator>

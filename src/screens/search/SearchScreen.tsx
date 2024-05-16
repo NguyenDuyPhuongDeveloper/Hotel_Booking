@@ -8,10 +8,10 @@ import { fontFamilies } from '../../constants/fontFamilies';
 
 const SearchScreen = ( { navigation, route }: any ) =>
 {
-    const { hotels, totalResults } = route.params;
+    const { hotels, totalResults, searchParams } = route.params;
 
     const renderItem = ( { item }: { item: any } ) => (
-        <TouchableOpacity style={styles.hotelCard} onPress={() => navigation.navigate( 'HotelDetails', { hotel: item } )}>
+        <TouchableOpacity style={styles.hotelCard} onPress={() => navigation.navigate( 'HotelDetails', { hotel: item, searchParams } )}>
             <Image source={{ uri: item.images[ 0 ] }} style={styles.hotelImage} />
             <View style={styles.hotelInfo}>
                 <Text style={styles.hotelName}>{item.name}</Text>

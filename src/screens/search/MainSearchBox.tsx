@@ -104,7 +104,7 @@ const MainSearchBox = () =>
             const res = await serviceAPI.HandleService( api, searchParams, 'get' );
             console.log( `res= `, res );
             setIsLoading( false );
-            navigation.navigate( 'SearchScreen', { hotels: res.data, totalResults: res.totalResults } );
+            navigation.navigate( 'SearchScreen', { hotels: res.data, totalResults: res.totalResults, searchParams } );
         } catch ( error )
         {
             console.log( error );
