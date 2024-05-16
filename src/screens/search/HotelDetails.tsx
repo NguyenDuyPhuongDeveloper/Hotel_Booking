@@ -20,8 +20,6 @@ const HotelDetails = ( { navigation, route }: any ) =>
     const [ uid, setUid ] = useState<any>();
     // console.log( 'hotel', hotel );
     const { getItem } = useAsyncStorage( 'auth' );
-    const auth = useSelector( authSelector );
-    const dispatch = useDispatch();
     const roomId = hotel.rooms;
 
 

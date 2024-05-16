@@ -1,18 +1,89 @@
-import { View, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamilies';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { LoadingModal } from '../../modals';
+import bookingAPI from '../../apis/bookingApi';
+import LinearGradient from 'react-native-linear-gradient';
+import { CircleComponent, RowComponent, TextComponent } from '../../components';
+import { HambergerMenu, Notification } from 'iconsax-react-native';
 
 const BookingScreen = ( { navigation, route }: any ) =>
 {
+    const { getItem } = useAsyncStorage( 'auth' );
     const { dataBooking } = route.params || {};
-    console.log( dataBooking );
+    const [ userId, setUserId ] = useState<string>( '' );
+    const [ isLoading, setIsLoading ] = useState( false );
+
+    const getUserId = async () =>
+    {
+        try
+        {
+            const res = await getItem();
+            if ( res !== null )
+            {
+                const userData = JSON.parse( res );
+                console.log( 'Get user information dfdf ', userData );
+                const { id } = userData.id;
+                setUserId( id );
+                console.log( 'User ID:', userId );
+            } else
+            {
+                console.log( 'No data found in AsyncStorage' );
+            }
+        } catch ( error )
+        {
+            console.log( 'Error retrieving data from AsyncStorage:', error );
+        }
+    };
+
+    useEffect( () =>
+    {
+        getUserId();
+    }, [] );
 
     // Check if dataBooking is available
-    if ( !dataBooking )
+    if ( !dataBooking && !userId )
     {
         return (
             <View style={styles.container}>
+                <StatusBar barStyle="light-content" />
+                <LinearGradient colors={[ '#00BD6B', '#2D6ADC' ]} style={{
+                    height: 120,
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                    padding: StatusBar.currentHeight,
+                }}>
+                    <View style={{ paddingTop: 10 }}>
+                        <RowComponent>
+                            <TouchableOpacity>
+                                <HambergerMenu color={appColors.white} size={30} />
+                            </TouchableOpacity>
+                            <View style={{ flex: 1 }}>
+                                <RowComponent>
+                                    <TextComponent text="Yami Booking" color={appColors.white} size={24} font={fontFamilies.semiBold} />
+                                </RowComponent>
+                            </View>
+                            <CircleComponent size={36} color={appColors.white}>
+                                <View>
+                                    <Notification color={appColors.primary} size={24} />
+                                    <View style={{
+                                        backgroundColor: appColors.warn,
+                                        width: 10,
+                                        height: 10,
+                                        borderRadius: 30,
+                                        borderWidth: 2,
+                                        borderColor: appColors.white,
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 0,
+                                    }} />
+                                </View>
+                            </CircleComponent>
+                        </RowComponent>
+                    </View>
+                </LinearGradient >
                 <Text style={styles.noDataText}>No booking data available.</Text>
             </View>
         );
@@ -20,13 +91,61 @@ const BookingScreen = ( { navigation, route }: any ) =>
 
     const getUserBookings = async () =>
     {
-
-
-    }
+        const api = `/getBookings?uid=${ userId }`;
+        setIsLoading( true );
+        try
+        {
+            const res = await bookingAPI.HandleBooking( api, null, 'get' );
+            console.log( 'User bookings:', res );
+        } catch ( error )
+        {
+            setIsLoading( false );
+            console.log( 'Error getting user bookings:', error );
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Booking Details</Text>
+            <StatusBar barStyle="light-content" />
+            <LinearGradient colors={[ '#00BD6B', '#2D6ADC' ]} style={{
+                height: 120,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+                padding: StatusBar.currentHeight,
+            }}>
+                <View style={{ paddingTop: 10 }}>
+                    <RowComponent>
+                        <TouchableOpacity>
+                            <HambergerMenu color={appColors.white} size={30} />
+                        </TouchableOpacity>
+                        <View style={{ flex: 1 }}>
+                            <RowComponent>
+                                <TextComponent text="Yami Booking" color={appColors.white} size={24} font={fontFamilies.semiBold} />
+                            </RowComponent>
+                        </View>
+                        <CircleComponent size={36} color={appColors.white}>
+                            <View>
+                                <Notification color={appColors.primary} size={24} />
+                                <View style={{
+                                    backgroundColor: appColors.warn,
+                                    width: 10,
+                                    height: 10,
+                                    borderRadius: 30,
+                                    borderWidth: 2,
+                                    borderColor: appColors.white,
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 0,
+                                }} />
+                            </View>
+                        </CircleComponent>
+                    </RowComponent>
+                </View>
+            </LinearGradient >
+            <RowComponent>
+                <Text style={styles.title}>Booking Details</Text>
+            </RowComponent>
+
             <View style={styles.detailsContainer}>
                 <View style={styles.detailRow}>
                     <Text style={styles.label}>Booking ID:</Text>
@@ -57,6 +176,7 @@ const BookingScreen = ( { navigation, route }: any ) =>
                     <Text style={styles.value}>{dataBooking.userId}</Text>
                 </View>
             </View>
+            <LoadingModal visible={isLoading} />
         </View>
     );
 };
@@ -64,8 +184,6 @@ const BookingScreen = ( { navigation, route }: any ) =>
 const styles = StyleSheet.create( {
     container: {
         flex: 1,
-        backgroundColor: appColors.gray,
-        padding: 16,
     },
     title: {
         fontSize: 24,
