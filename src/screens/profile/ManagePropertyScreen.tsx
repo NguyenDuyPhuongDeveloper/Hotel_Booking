@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Button, Alert, Image, FlatList } from 'react-native';
+import { View, StyleSheet, Button, Alert, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import { appColors } from '../../constants/appColors';
 import hotelAPI from '../../apis/hotelApi';
 import { BlankComponent, SectionComponent } from '../../components';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+
 
 const ManagePropertyScreen = ( { navigation }: any ) =>
 {
@@ -12,7 +13,19 @@ const ManagePropertyScreen = ( { navigation }: any ) =>
     const [ userId, setUserId ] = useState( '' );
     const { getItem } = useAsyncStorage( 'auth' );
     const [ isLoading, setIsLoading ] = useState( false );
+    const [ hotelId, setHotelId ] = useState( '' );
+    const [ isRefresh, setIsRefresh ] = useState( false );
+    console.log( isRefresh );
 
+    const checkLogin = async () =>
+    {
+        const res = await getItem();
+        if ( res )
+        {
+            const parsedRes = JSON.parse( res );
+            setUserId( parsedRes.id );
+        }
+    };
     useEffect( () =>
     {
         const initialize = async () =>
@@ -24,21 +37,14 @@ const ManagePropertyScreen = ( { navigation }: any ) =>
 
     useEffect( () =>
     {
-        if ( userId )
+        if ( userId !== '' )
         {
             fetchProperties();
+            setIsRefresh( ( prev ) => !prev );
         }
     }, [ userId ] );
 
-    const checkLogin = async () =>
-    {
-        const res = await getItem();
-        if ( res )
-        {
-            const parsedRes = JSON.parse( res );
-            setUserId( parsedRes.id );
-        }
-    };
+
 
     const fetchProperties = async () =>
     {
@@ -49,6 +55,7 @@ const ManagePropertyScreen = ( { navigation }: any ) =>
             const res = await hotelAPI.HandleHotel( api, null, 'get' );
             console.log( res.data );
             setProperties( res.data );
+            setHotelId( res.data._id );
         } catch ( error )
         {
             console.error( error );
@@ -64,13 +71,15 @@ const ManagePropertyScreen = ( { navigation }: any ) =>
     };
 
     const renderProperty = ( { item }: any ) => (
-        <SectionComponent styles={styles.propertyContainer}>
-            <Image source={{ uri: item.images[ 0 ] }} style={styles.propertyImage} />
-            <View style={styles.propertyDetails}>
-                <Text style={styles.propertyName}>{item.name}</Text>
-                <Text>{item.address}</Text>
-                <Text>{item.city}, {item.country}</Text>
-            </View>
+        <SectionComponent>
+            <TouchableOpacity onPress={() => navigation.navigate( 'EditHotelDetail', { property: item } )} style={styles.propertyContainer}>
+                <Image source={{ uri: item.images[ 0 ] }} style={styles.propertyImage} />
+                <View style={styles.propertyDetails}>
+                    <Text style={styles.propertyName}>{item.name}</Text>
+                    <Text>{item.address}</Text>
+                    <Text>{item.city}, {item.country}</Text>
+                </View>
+            </TouchableOpacity>
         </SectionComponent>
     );
 
