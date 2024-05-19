@@ -63,7 +63,7 @@ const ProfileScreen = ( { navigation }: any ) =>
         try
         {
             const res = await userAPI.HandleUser( api, 'get' );
-            console.log( res );
+            console.log( "get user Profile Screen", res );
             setName( res.data.name );
             setEmail( res.data.email );
             setPhoto( res.data.photo );

@@ -19,7 +19,7 @@ const VerificationScreen = ( { navigation, route }: any ) =>
     const [ codeValues, setCodeValues ] = useState<string[]>( [] );
     const [ newCode, setNewCode ] = useState<string>( '' );
     const [ currentCode, setCurrentCode ] = useState<string>( code );
-    const [ time, setTime ] = useState( 20 );
+    const [ time, setTime ] = useState( 59 );
     const [ isLoading, setIsLoading ] = useState( false );
     const [ errorMessage, setErrorMessage ] = useState( '' );
 
@@ -73,7 +73,7 @@ const VerificationScreen = ( { navigation, route }: any ) =>
                 { email },
                 'post'
             );
-            setTime( 20 );
+            setTime( 59 );
             setCurrentCode( res.data.verificationCode );
             console.log( res );
             setIsLoading( false );

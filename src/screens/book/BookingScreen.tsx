@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, TouchableOpacity, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { appColors } from '../../constants/appColors';
 import { fontFamilies } from '../../constants/fontFamilies';
@@ -8,41 +8,94 @@ import bookingAPI from '../../apis/bookingApi';
 import LinearGradient from 'react-native-linear-gradient';
 import { CircleComponent, RowComponent, TextComponent } from '../../components';
 import { HambergerMenu, Notification } from 'iconsax-react-native';
+import userAPI from '../../apis/userApi';
 
 const BookingScreen = ( { navigation, route }: any ) =>
 {
     const { getItem } = useAsyncStorage( 'auth' );
     const { dataBooking } = route.params || {};
-    const [ userId, setUserId ] = useState<string>( '' );
+    const [ userId, setUserId ] = useState( '' );
     const [ isLoading, setIsLoading ] = useState( false );
+    const [ isRefresh, setIsRefresh ] = useState( false );
+    const [ bookings, setBookings ] = useState( [] );
 
-    const getUserId = async () =>
+
+    const [ bookingId, setBookingId ] = useState( '' );
+    const [ checkIn, setCheckIn ] = useState( '' );
+    const [ checkOut, setCheckOut ] = useState( '' );
+    const [ hotelId, setHotelId ] = useState( '' );
+    const [ roomId, setRoomId ] = useState( '' );
+    const [ totalPrice, setTotalPrice ] = useState( 0 );
+
+    const checkLogin = async () =>
     {
-        try
+        const res = await getItem();
+        if ( res )
         {
-            const res = await getItem();
-            if ( res !== null )
-            {
-                const userData = JSON.parse( res );
-                console.log( 'Get user information dfdf ', userData );
-                const { id } = userData.id;
-                setUserId( id );
-                console.log( 'User ID:', userId );
-            } else
-            {
-                console.log( 'No data found in AsyncStorage' );
-            }
-        } catch ( error )
-        {
-            console.log( 'Error retrieving data from AsyncStorage:', error );
+            const parsedRes = JSON.parse( res );
+            setUserId( parsedRes.id );
         }
     };
+    useEffect( () =>
+    {
+        const initialize = async () =>
+        {
+            await checkLogin();
+        };
+        initialize();
+    }, [] );
 
     useEffect( () =>
     {
-        getUserId();
-    }, [] );
+        if ( userId !== '' )
+        {
+            getUserInfo();
+            getUserBookings();
+            setIsRefresh( ( prev ) => !prev );
+        }
+    }, [ userId ] );
 
+    const getUserInfo = async () =>
+    {
+        const api = `/getUserInfo?uid=${ userId }`;
+        setIsLoading( true );
+        try
+        {
+            const res = await userAPI.HandleUser( api, 'get' );
+            console.log( "get user Booking Screen", res );
+
+            setIsLoading( false );
+        } catch ( error )
+        {
+            setIsLoading( false );
+            console.log( error );
+        }
+    };
+
+
+
+    const getUserBookings = async () =>
+    {
+        const api = `/getBookings?uid=${ userId }`;
+        setIsLoading( true );
+        try
+        {
+            const res = await bookingAPI.HandleBooking( api, null, 'get' );
+            setBookings( res.bookings );
+            console.log( 'User bookings:', res.bookings[ 0 ] );
+            setBookingId( res.bookings[ 0 ].id );
+            setCheckIn( res.bookings[ 0 ].checkIn );
+            setCheckOut( res.bookings[ 0 ].checkOut );
+            setHotelId( res.bookings[ 0 ].hotelId );
+            setRoomId( res.bookings[ 0 ].roomId );
+            setTotalPrice( res.bookings[ 0 ].totalPrice );
+            setIsLoading( false );
+        } catch ( error )
+        {
+            setIsLoading( false );
+            console.log( 'Error getting user bookings:', error );
+        }
+    };
     // Check if dataBooking is available
     if ( !dataBooking && !userId )
     {
@@ -89,21 +142,6 @@ const BookingScreen = ( { navigation, route }: any ) =>
         );
     }
 
-    const getUserBookings = async () =>
-    {
-        const api = `/getBookings?uid=${ userId }`;
-        setIsLoading( true );
-        try
-        {
-            const res = await bookingAPI.HandleBooking( api, null, 'get' );
-            console.log( 'User bookings:', res );
-        } catch ( error )
-        {
-            setIsLoading( false );
-            console.log( 'Error getting user bookings:', error );
-        }
-    };
-
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -145,37 +183,39 @@ const BookingScreen = ( { navigation, route }: any ) =>
             <RowComponent>
                 <Text style={styles.title}>Booking Details</Text>
             </RowComponent>
+            <View style={styles.container}>
+                <FlatList
+                    data={bookings}
+                    keyExtractor={( item: any ) => item.id}
+                    renderItem={( { item } ) => (
+                        <View style={styles.detailsContainer}>
+                            <Text style={styles.label}>Booking ID:</Text>
+                            <Text style={styles.value}>{item.id}</Text>
 
-            <View style={styles.detailsContainer}>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Booking ID:</Text>
-                    <Text style={styles.value}>{dataBooking.id}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Check-In:</Text>
-                    <Text style={styles.value}>{new Date( dataBooking.checkIn ).toLocaleString()}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Check-Out:</Text>
-                    <Text style={styles.value}>{new Date( dataBooking.checkOut ).toLocaleString()}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Hotel ID:</Text>
-                    <Text style={styles.value}>{dataBooking.hotelId}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Room ID:</Text>
-                    <Text style={styles.value}>{dataBooking.roomId}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>Total Price:</Text>
-                    <Text style={styles.value}>{dataBooking.totalPrice} $</Text>
-                </View>
-                <View style={styles.detailRow}>
-                    <Text style={styles.label}>User ID:</Text>
-                    <Text style={styles.value}>{dataBooking.userId}</Text>
-                </View>
+                            <Text style={styles.label}>Check-In:</Text>
+                            <Text style={styles.value}>
+                                {new Date( item.checkIn ).toLocaleString()}
+                            </Text>
+
+                            <Text style={styles.label}>Check-Out:</Text>
+                            <Text style={styles.value}>
+                                {new Date( item.checkOut ).toLocaleString()}
+                            </Text>
+
+                            <Text style={styles.label}>Hotel ID:</Text>
+                            <Text style={styles.value}>{item.hotelId}</Text>
+
+                            <Text style={styles.label}>Room ID:</Text>
+                            <Text style={styles.value}>{item.roomId}</Text>
+
+                            <Text style={styles.label}>Total Price:</Text>
+                            <Text style={styles.value}>{item.totalPrice}</Text>
+                        </View>
+                    )}
+                />
             </View>
+
+
             <LoadingModal visible={isLoading} />
         </View>
     );
@@ -195,6 +235,9 @@ const styles = StyleSheet.create( {
         backgroundColor: appColors.white,
         padding: 16,
         borderRadius: 8,
+        borderColor: appColors.primary,
+        borderWidth: 1,
+        margin: 14
     },
     detailRow: {
         flexDirection: 'row',

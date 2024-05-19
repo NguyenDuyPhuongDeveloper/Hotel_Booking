@@ -33,7 +33,7 @@ const SignupScreen = ( { navigation }: any ) =>
     {
         if ( !errorMessage ||
             ( errorMessage
-                && ( errorMessage.email || errorMessage.password ) ) && ( !values.email || !values.password ) )
+                && ( errorMessage.email || errorMessage.password ) ) )
         {
             setIsDisabled( true );
         } else
@@ -81,19 +81,38 @@ const SignupScreen = ( { navigation }: any ) =>
     }
     const handleRegister = async () =>
     {
-        const api = '/verification';
-        setIsLoading( true );
-        try
+        if ( values.username && values.email && values.password )
         {
-            const res = await authenticationAPI.HandleAuthentication( api, { email: values.email }, 'post' );
-            console.log( `res.data.code=${ res.data.verificationCode }` );
-            setIsLoading( false );
-            navigation.navigate( 'VerificationScreen', { code: res.data.verificationCode, ...values } )
-        } catch ( error )
+            const emailValidation = Validate.email( values.email );
+            if ( emailValidation )
+            {
+                setErrorMessage( '' );
+                setIsLoading( true );
+                const api = '/verification';
+                setIsLoading( true );
+                try
+                {
+                    const res = await authenticationAPI.HandleAuthentication( api, { email: values.email }, 'post' );
+                    console.log( `res.data.code=${ res.data.verificationCode }` );
+                    setIsLoading( false );
+                    navigation.navigate( 'VerificationScreen', { code: res.data.verificationCode, ...values } )
+                } catch ( error )
+                {
+                    console.log( error );
+                    setIsLoading( false );
+                }
+            } else
+            {
+                setErrorMessage( 'Email is invalid' );
+            }
+        } else
         {
-            console.log( error );
-            setIsLoading( false );
+            setErrorMessage( 'Please fill all fields' );
         }
+
+
+
+
         // const { username, email, phone, password } = values;
         // const emailValidation = Validate.email( values.email );
         // const passwordValidation = Validate.password( values.password );//not used yet
