@@ -1,23 +1,45 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Button, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, ScrollView, Button, Alert, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { useDispatch } from 'react-redux';
 import { LoadingModal } from '../../modals';
 import { appColors } from '../../constants/appColors';
 import hotelAPI from '../../apis/hotelApi';
 import { BlankComponent, SectionComponent } from '../../components';
-
+import { ImageLibraryOptions, MediaType, launchImageLibrary } from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 const ListPropertyScreen = ( { navigation, route }: any ) =>
 {
     const [ name, setName ] = useState( '' );
+    const [ userId, setUserId ] = useState( '' );
     const [ description, setDescription ] = useState( '' );
     const [ address, setAddress ] = useState( '' );
     const [ city, setCity ] = useState( '' );
     const [ country, setCountry ] = useState( '' );
-    const [ amenities, setAmenities ] = useState<string[]>( [ '' ] ); // Khởi tạo với một amenity trống
-
+    const [ amenities, setAmenities ] = useState( [ '' ] );
+    const [ images, setImages ] = useState<string[]>( [] );
+    const { getItem } = useAsyncStorage( 'auth' );
     const [ isLoading, setIsLoading ] = useState( false );
+
+    useEffect( () =>
+    {
+        const initialize = async () =>
+        {
+            await checkLogin();
+        };
+        initialize();
+    }, [] );
+
+    const checkLogin = async () =>
+    {
+        const res = await getItem();
+        if ( res )
+        {
+            const parsedRes = JSON.parse( res );
+            setUserId( parsedRes.id );
+        }
+    };
 
     const handleCreateHotel = async () =>
     {
@@ -31,19 +53,17 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
             country,
             amenities,
             owner: id,
+            images,
         };
         const api = '/createHotel';
         try
         {
-            // Gọi API để tạo khách sạn
-            console.log( 'Data:', data );
             const res = await hotelAPI.HandleHotel( api, data, 'post' );
             setIsLoading( false );
             console.log( 'Create hotel res', res );
             const hotelId = res.data.id;
-            // Kiểm tra kết quả và chuyển sang màn hình tạo phòng
-
-            // navigation.navigate( 'CreateRoomScreen', { hotelId: res.hotelId } );
+            navigation.goBack();
+            Alert.alert( 'Create hotel Successs', 'The hotel has been created!' );
         } catch ( error )
         {
             setIsLoading( false );
@@ -51,12 +71,89 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
         }
     };
 
-    const addAmenity = () =>
+    const handleChoosePhotos = async () =>
     {
-        setAmenities( [ ...amenities, '' ] ); // Thêm một amenity trống vào danh sách
+        try
+        {
+            await handleChangePhoto();
+        } catch ( error )
+        {
+            console.error( 'Error picking images: ', error );
+        }
     };
 
-    const handleAmenityChange = ( text: string, rowIndex: number, columnIndex: number ) =>
+    const handleChangePhoto = async () =>
+    {
+        const options: ImageLibraryOptions = {
+            mediaType: 'photo' as MediaType,
+            selectionLimit: 0,
+        };
+
+        try
+        {
+            const result = await launchImageLibrary( options );
+            if ( result.didCancel )
+            {
+                console.log( 'User cancelled image picker' );
+            } else if ( result.errorCode )
+            {
+                console.log( 'ImagePicker Error: ', result.errorCode );
+            } else if ( result.assets && result.assets.length > 0 )
+            {
+                const uploadedPhotos = await Promise.all(
+                    result.assets.map( async ( asset ) =>
+                    {
+                        const fileUri = asset.uri;
+                        if ( fileUri )
+                        {
+                            const photoUrl = await uploadImage( fileUri );
+                            return photoUrl;
+                        }
+                        return '';
+                    } )
+                );
+                setImages( [ ...images, ...uploadedPhotos ] );
+            }
+        } catch ( error )
+        {
+            console.error( 'Error picking images: ', error );
+        }
+    };
+
+    const uploadImage = async ( fileUri: any ) =>
+    {
+        if ( !userId )
+        {
+            console.error( 'User ID is not set. Please check login.' );
+            return '';
+        }
+
+        try
+        {
+            const reference = storage().ref( `images/hotels/${ userId }/${ Date.now() }.jpg` );
+            const task = reference.putFile( fileUri );
+
+            task.on( 'state_changed', ( taskSnapshot ) =>
+            {
+                console.log( `Uploaded ${ taskSnapshot.bytesTransferred } bytes out of ${ taskSnapshot.totalBytes }` );
+            } );
+
+            await task;
+            const photoUrl = await reference.getDownloadURL();
+            return photoUrl;
+        } catch ( error )
+        {
+            console.error( 'Error uploading image:', error );
+            return '';
+        }
+    };
+
+    const addAmenity = () =>
+    {
+        setAmenities( [ ...amenities, '' ] );
+    };
+
+    const handleAmenityChange = ( text: any, rowIndex: any, columnIndex: any ) =>
     {
         const amenityIndex = rowIndex * 3 + columnIndex;
         const newAmenities = [ ...amenities ];
@@ -64,7 +161,6 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
         setAmenities( newAmenities );
     };
 
-    // Tạo một helper function để chia amenities thành từng hàng có 3 items
     const splitAmenitiesIntoRows = () =>
     {
         const rows = [];
@@ -111,7 +207,14 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
                         style={styles.input}
                     />
                     <SectionComponent styles={styles.section}>
-                        {/* Hiển thị amenities theo từng hàng */}
+                        <Button title="Choose Photos" onPress={handleChoosePhotos} />
+                        {images.map( ( photoUrl, index ) => (
+                            photoUrl ? (
+                                <Image key={index} source={{ uri: photoUrl }} style={styles.photo} />
+                            ) : null
+                        ) )}
+                    </SectionComponent>
+                    <SectionComponent styles={styles.section}>
                         {splitAmenitiesIntoRows().map( ( row, rowIndex ) => (
                             <View key={rowIndex} style={styles.row}>
                                 {row.map( ( amenity, columnIndex ) => (
@@ -126,7 +229,6 @@ const ListPropertyScreen = ( { navigation, route }: any ) =>
                                 ) )}
                             </View>
                         ) )}
-                        {/* Nút để thêm amenity mới */}
                         <Button title="Add Amenity" onPress={addAmenity} />
                     </SectionComponent>
                     <Button title="Create Hotel" onPress={handleCreateHotel} />
@@ -160,12 +262,17 @@ const styles = StyleSheet.create( {
         borderWidth: 1,
         alignItems: 'center',
         borderRadius: 10,
-        borderColor: appColors.yellow
-
+        borderColor: appColors.yellow,
     },
     tag: {
         backgroundColor: appColors.green2,
-
+    },
+    photo: {
+        width: 100,
+        height: 100,
+        marginRight: 10,
+        marginBottom: 10,
+        backgroundColor: 'transparent',
     },
 } );
 

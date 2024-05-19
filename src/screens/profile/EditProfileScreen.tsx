@@ -1,16 +1,14 @@
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import storage from '@react-native-firebase/storage';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Button, Alert } from 'react-native';
-import { TextInput, Avatar } from 'react-native-paper';
+import { Alert, Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ImageLibraryOptions, MediaType, launchImageLibrary } from 'react-native-image-picker';
+import { Avatar, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import userAPI from '../../apis/userApi';
 import { BlankComponent, SpaceComponent } from '../../components';
 import { appColors } from '../../constants/appColors';
 import { LoadingModal } from '../../modals';
-import userAPI from '../../apis/userApi';
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
-import { launchImageLibrary, ImageLibraryOptions, MediaType } from 'react-native-image-picker';
-import firebase from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage';
-import { useNavigation } from '@react-navigation/native';
 
 const EditProfileScreen = ( { navigation, route }: any ) =>
 {
