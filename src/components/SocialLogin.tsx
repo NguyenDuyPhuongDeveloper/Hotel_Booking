@@ -43,7 +43,7 @@ const SocialLogin = () =>
     }
     return (
         <RowComponent justify='center'>
-            <ButtonComponent type='primary' color={appColors.primary} text="Facebook" />
+            {/* <ButtonComponent type='primary' color={appColors.primary} text="Facebook" /> */}
             <ButtonComponent onPress={handleLoginWithGoogle} type='primary' color={appColors.google_logo} text="Google" />
         </RowComponent>
     )

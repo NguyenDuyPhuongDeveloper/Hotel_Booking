@@ -45,6 +45,7 @@ const SigninScreen = ( { navigation }: any ) =>
                 const res = await authenticationAPI.HandleAuthentication( '/login', { email, password }, 'post' );
                 dispatch( addAuth( res.data ) );
                 await AsyncStorage.setItem( 'auth', isRemember ? JSON.stringify( res.data ) : email );
+                console.log( 'res.data', res.data );
             } catch ( err )
             {
                 console.log( err );

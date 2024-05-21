@@ -120,7 +120,7 @@ const VerificationScreen = ( { navigation, route }: any ) =>
         }
         else
         {
-            setErrorMessage( "Verification code is expired! Please resend new verification code" );
+            setErrorMessage( "Verification code is expired! Please resend new verification code!" );
         }
     }
     return (

@@ -1,4 +1,4 @@
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addAuth, authSelector } from '../redux/reducers/authReducer'
@@ -22,10 +22,25 @@ const AppRouters = () =>
         }, 1500 );
         return () => clearTimeout( timeout );
     }, [] );
+    // const saveToken = async ( token: any ) =>
+    // {
+    //     try
+    //     {
+    //         const authData = JSON.stringify( { accessToken: token } );
+    //         await AsyncStorage.setItem( 'auth', authData );
+    //         console.log( 'Token saved successfully:', authData );
+    //     } catch ( error )
+    //     {
+    //         console.error( 'Error saving token to AsyncStorage:', error );
+    //     }
+    // }
+
     const checkLogin = async () =>
     {
         const res = await getItem();
         console.log( 'check Login-authRouter', res );
+        // await saveToken( JSON.parse( res ).accesstoken );
+
         res && dispatch( addAuth( JSON.parse( res ) ) );
     };
     return (

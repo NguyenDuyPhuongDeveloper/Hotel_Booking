@@ -33,7 +33,7 @@ const PartnerRegisterScreen = ( { navigation, route }: any ) =>
     }
     return (
         <>
-            <BlankComponent
+            <BlankComponent title={'Partner Register'}
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,

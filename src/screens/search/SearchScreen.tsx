@@ -9,8 +9,8 @@ import { fontFamilies } from '../../constants/fontFamilies';
 const SearchScreen = ( { navigation, route }: any ) =>
 {
     const { hotels, totalResults, searchParams } = route.params;
-
-    const renderItem = ( { item }: { item: any } ) => (
+    console.log( 'hotels', hotels );
+    const renderItem = ( { item }: any ) => (
         <TouchableOpacity style={styles.hotelCard} onPress={() => navigation.navigate( 'HotelDetails', { hotel: item, searchParams } )}>
             <Image source={{ uri: item.images[ 0 ] }} style={styles.hotelImage} />
             <View style={styles.hotelInfo}>

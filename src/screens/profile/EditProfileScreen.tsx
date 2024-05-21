@@ -164,7 +164,7 @@ const EditProfileScreen = ( { navigation, route }: any ) =>
 
     return (
         <>
-            <BlankComponent back topBarColor={appColors.primary}>
+            <BlankComponent back topBarColor={appColors.primary} title='Edit Profile'>
                 <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
                     <View style={styles.photoContainer}>
                         <Avatar.Image size={150} source={{ uri: photo || 'https://via.placeholder.com/150' }} />

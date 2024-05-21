@@ -6,12 +6,14 @@ import { Validate } from '../../utils/validate'
 import { LoadingModal } from '../../modals'
 import authenticationAPI from '../../apis/authApi'
 import { Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const ForgotPassword = () =>
 {
     const [ email, setEmail ] = useState( '' );
     const [ isDisabled, setIsDisabled ] = useState( true );
     const [ isLoading, setIsLoading ] = useState( false );
+    const navigation = useNavigation();
 
     const handleCheckEmail = () =>
     {
@@ -28,6 +30,7 @@ const ForgotPassword = () =>
             console.log( res );
             setIsLoading( false );
             Alert.alert( 'Sent mail', 'We have sent an email including new password! ' );
+            navigation.goBack();
 
 
         } catch ( error )

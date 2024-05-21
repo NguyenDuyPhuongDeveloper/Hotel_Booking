@@ -46,7 +46,7 @@ const SettingScreen = ( { navigation, route }: any ) =>
     const [ isLoading, setIsLoading ] = useState( false );
     return (
         <>
-            <BlankComponent title={'Setting'}
+            <BlankComponent title={'Settings'}
                 styles={{
                     padding: 24,
                     paddingHorizontal: 14,
