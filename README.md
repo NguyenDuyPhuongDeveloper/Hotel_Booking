@@ -1,79 +1,75 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+Đây là một file README.md mẫu cho dự án ứng dụng đặt lịch khách sạn Yami Booking:
 
-# Getting Started
+# Yami Booking - Ứng dụng đặt lịch khách sạn
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+Yami Booking là một ứng dụng đặt lịch khách sạn hiện đại, được xây dựng với các công nghệ tiên tiến như MongoDB, React Native, Node.js và Express. Ứng dụng cung cấp một nền tảng đặt phòng khách sạn nhanh chóng và tiện lợi cho khách hàng, đồng thời giúp chủ khách sạn quản lý dễ dàng hơn.
 
-## Step 1: Start the Metro Server
+## Các tính năng chính
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+- Đăng ký và đăng nhập tài khoản
+- Xác thực OTP
+- Quản lý tài khoản người dùng (cập nhật, xóa)
+- Tìm kiếm và đặt phòng khách sạn
+- Quản lý lịch đặt phòng
+- Đăng ký tài khoản Partner
+- Quản lý khách sạn (tạo, cập nhật thông tin)
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Hướng dẫn cài đặt
 
-```bash
-# using npm
-npm start
+1. Kho lưu trữ GitHub:
+•	Backend: https://github.com/NguyenDuyPhuongDeveloper/hotel_booking_server.git
+•	Frontend: https://github.com/NguyenDuyPhuongDeveloper/Hotel_Booking.git
+2. Cài đặt các gói phụ thuộc:
 
-# OR using Yarn
-yarn start
-```
+Tạo các file configs:
+·       Backend: tạo folder configs trong source
+·        require('dotenv').config();
+·        const mongoose = require('mongoose');
+·         
+·        const dbUrl =
+·        `mongodb+srv://${ process.env.DATABASE_USERNAME }:${ process.env.DATABASE_PASSWORD }
+·        @cluster0.nhqwx5c.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+·         
+·        const connectDB = async () =>
+·        {
+·            try
+·            {
+·                const connection = await mongoose.connect(dbUrl);
+·         
+·                console.log('Database connected successfully');
+·            } catch (error)
+·            {
+·                console.log('Database connection failed');
+·                process.exit(1);
+·            }
+·        }
+·         
+·        module.exports = connectDB;
+·       Frontend: Tạo file google-services.json.
 
-## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+3. Cấu hình biến môi trường
+   - Tạo file `.env` trong thư mục gốc
+   - Thêm các biến môi trường cần thiết (ví dụ: `MONGO_URI`, `JWT_SECRET`, ...)
 
-### For Android
+4. Khởi chạy ứng dụng:
 
-```bash
-# using npm
-npm run android
+•	Di chuyển vào thư mục backend: gõ lệnh npm install và sau đó npm start.
+•	Di chuyển vào thư mục frontend: gõ lệnh npm install và sau đó npm run android.
 
-# OR using Yarn
-yarn android
-```
 
-### For iOS
+## Công nghệ sử dụng
 
-```bash
-# using npm
-npm run ios
+- MongoDB: Cơ sở dữ liệu NoSQL
+- React Native: Xây dựng giao diện người dùng ứng dụng di động
+- Node.js: Môi trường server-side JavaScript
+- Express: Framework web cho Node.js
 
-# OR using Yarn
-yarn ios
-```
+## Đóng góp
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+Nếu bạn muốn đóng góp cho dự án này, vui lòng gửi pull request. Chúng tôi rất hoan nghênh các đóng góp và cải tiến.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+## Giấy phép
 
-## Step 3: Modifying your App
+Dự án này được cấp phép theo [MIT License](LICENSE).
 
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
